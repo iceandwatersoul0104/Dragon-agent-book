@@ -72,6 +72,8 @@ python main.py --scenario egress --allow-network
 
 结尾给出统计与审计文件路径。`audit.jsonl` 每行一条 JSON，含 `cmd / why / allowed / reason / exit_code / duration_ms / stdout / stderr / timed_out`。
 
+`cmd` 字段记的是**实际执行的命令**，沙箱里跑 Python 时第一项就是解释器的绝对路径——每台机器都不一样。仓库里这份已归一化成 `python`，只为当输出格式的参照；你本地跑出来的会是自己的路径，这是正常的。文件是**追加**写的，跑一次多几行；需要干净的一份就先删掉再跑。
+
 ## 与正文的对应关系
 
 | 正文位置 | 代码位置 |
