@@ -5,7 +5,7 @@
 $ErrorActionPreference = 'Continue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$Store = 'D:\Creater\Dragon_agent\agent-book\_plan\vol2-verified-refs.json'
+$Store = Join-Path $PSScriptRoot 'vol2-verified-refs.json'
 
 function Get-Page([string]$url) {
   for ($i = 0; $i -lt 4; $i++) {

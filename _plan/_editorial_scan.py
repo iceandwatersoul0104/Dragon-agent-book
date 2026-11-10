@@ -23,7 +23,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-ROOT = Path(r"D:\Creater\Dragon_agent\agent-book")
+ROOT = Path(__file__).resolve().parent.parent
 PLAN = ROOT / "_plan"
 OUT = PLAN / "_editorial_scan.json"
 CACHE = PLAN / "_url_cache.json"

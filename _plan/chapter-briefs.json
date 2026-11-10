@@ -4,7 +4,7 @@
     "part": "part-0",
     "title": "Agent 的定义、边界与心智模型",
     "slug": "definition",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-0/ch01-definition.md",
+    "path": "vol1/part-0/ch01-definition.md",
     "goal": "给出一个可操作的 Agent 定义与判定标准，划清 Agent / 工作流 / 链式调用 / Copilot / RPA 的边界，纠正“Agent 就是更长的提示词”这一最普遍的误解，并建立自主性分级光谱。",
     "must_cover": [
       "五种自主性光谱：单轮调用 → 固定流水线 → 受控循环 → 规划型 → 开放式自治，各自的决策权边界",
@@ -23,7 +23,7 @@
     "part": "part-0",
     "title": "Agent 系统的最小解剖：四回路架构",
     "slug": "anatomy",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-0/ch02-anatomy.md",
+    "path": "vol1/part-0/ch02-anatomy.md",
     "goal": "给出贯穿全书的统一解剖学模型：感知回路、规划回路、行动回路、反馈回路，加上状态、记忆、工具、护栏四个横切面，为后续所有章节提供共同坐标系。",
     "must_cover": [
       "四回路的职责划分、数据流与控制流分离（用 ASCII 图完整画出一次迭代）",
@@ -46,7 +46,7 @@
     "part": "part-0",
     "title": "为什么需要架构：可靠性、复利与工程约束",
     "slug": "why-architecture",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-0/ch03-why-architecture.md",
+    "path": "vol1/part-0/ch03-why-architecture.md",
     "goal": "论证从“一次调用”到“一个系统”的必要性：量化单次调用的可靠性天花板，建立架构收益递减曲线，并给出“什么时候不该上框架”的诚实判断。",
     "must_cover": [
       "错误累积：把单步成功率与步数结合，画出成功率随步数塌陷的曲线",
@@ -69,7 +69,7 @@
     "part": "part-1",
     "title": "ReAct：推理与行动交替的经典范式",
     "slug": "react",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch04-react.md",
+    "path": "vol1/part-1/ch04-react.md",
     "goal": "讲透 ReAct 的完整契约：轨迹格式、提示模板、动作解析、观察回灌、停止条件，并说清它与 Function Calling 的关系（思想在前、协议在后）。",
     "must_cover": [
       "ReAct 原始轨迹格式（Thought / Action / Action Input / Observation）的准确结构与它解决的问题",
@@ -94,7 +94,7 @@
     "part": "part-1",
     "title": "提示增强技术：CoT、Few-shot、Self-ask 与 Least-to-Most",
     "slug": "prompting",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch05-prompting.md",
+    "path": "vol1/part-1/ch05-prompting.md",
     "goal": "把主流提示增强技术分门别类，讲清每种技术的收益机制与失效边界，并明确划出“提示技巧”与“系统架构”的分界线。",
     "must_cover": [
       "Chain-of-Thought 的真实收益来源与代价（何时无效、为何对小模型不稳）",
@@ -116,7 +116,7 @@
     "part": "part-1",
     "title": "反思与自纠错：Reflexion、Self-Refine 与独立评审者",
     "slug": "reflection",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch06-reflection.md",
+    "path": "vol1/part-1/ch06-reflection.md",
     "goal": "系统梳理“让 Agent 检查自己”的三种形态，解释各自机制、代价与失效模式，特别是自我强化错误与反思循环这两个陷阱。",
     "must_cover": [
       "三种反思形态的机制差异：带记忆重试（Reflexion）、多轮改写（Self-Refine）、独立评审者（Critique-and-Act / Judge）",
@@ -135,7 +135,7 @@
     "part": "part-1",
     "title": "规划范式：Plan-and-Execute、ReWOO 与搜索型推理",
     "slug": "planning",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch07-planning.md",
+    "path": "vol1/part-1/ch07-planning.md",
     "goal": "把规划按粒度与时机分类，解释三种范式的机制差异，并重点讲清“计划过时”这一所有规划系统都要面对的核心问题。",
     "must_cover": [
       "先规划后执行（Plan-and-Execute）：计划作为可编辑工件，优点与计划漂移风险",
@@ -156,7 +156,7 @@
     "part": "part-1",
     "title": "工具调用契约：把 Function Calling 当作 API 工程",
     "slug": "tool-calling",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch08-tool-calling.md",
+    "path": "vol1/part-1/ch08-tool-calling.md",
     "goal": "把工具调用当作接口契约来设计：schema 设计原则、参数校验、并行调用、错误回灌、幂等性与副作用管理，给出可直接落地的规范。",
     "must_cover": [
       "工具描述即提示词：描述、参数语义、返回契约该怎么写（大量真实反例）",
@@ -178,7 +178,7 @@
     "part": "part-1",
     "title": "代码即行动：Code-Act 与 Program-of-Thought",
     "slug": "code-act",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch09-code-act.md",
+    "path": "vol1/part-1/ch09-code-act.md",
     "goal": "解释为什么让模型写代码执行往往比逐个调用工具更强，拆解其表达力、组合性、可验证性优势，以及沙箱隔离的硬性要求。",
     "must_cover": [
       "Code-Act 与 Program-of-Thought 的机制差异：把动作组合成程序 vs 把推理转成程序",
@@ -201,7 +201,7 @@
     "part": "part-1",
     "title": "上下文工程：把上下文当作稀缺资源预算",
     "slug": "context-engineering",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch10-context-engineering.md",
+    "path": "vol1/part-1/ch10-context-engineering.md",
     "goal": "把上下文从“提示词的一部分”升格为“可分配的资源”，系统讲述分层、检索、压缩、淘汰四种手段与上下文腐化现象。",
     "must_cover": [
       "上下文预算的分配：系统提示 / 工具定义 / 任务 / 历史 / 检索结果 各占多少",
@@ -223,7 +223,7 @@
     "part": "part-1",
     "title": "停止准则、步数上限与成本守卫",
     "slug": "stopping",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch11-stopping.md",
+    "path": "vol1/part-1/ch11-stopping.md",
     "goal": "系统设计 Agent 的终止机制：任务级成功判定、步数与预算上限、无进展检测、超时降级与优雅退出，并把成本守卫落成可运行代码。",
     "must_cover": [
       "四类停止条件：显式完成、预算耗尽、无进展、异常终止，各自的判定实现",
@@ -247,7 +247,7 @@
     "part": "part-2",
     "title": "LangChain 与 LangGraph：状态图式编排范式",
     "slug": "langgraph",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch12-langgraph.md",
+    "path": "vol1/part-2/ch12-langgraph.md",
     "goal": "解剖以状态图为核心的编排范式：节点与边、状态归约、检查点、中断与人工介入、持久化执行，以及它为何成为复杂 Agent 的事实标准之一。",
     "must_cover": [
       "State Graph 的核心抽象：节点、边、条件边、状态 schema 与 reducer 的归约语义",
@@ -272,7 +272,7 @@
     "part": "part-2",
     "title": "LlamaIndex：数据驱动的 Agent 范式",
     "slug": "llamaindex",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch13-llamaindex.md",
+    "path": "vol1/part-2/ch13-llamaindex.md",
     "goal": "展示另一条主线：把 Agent 架在数据与检索之上，说明事件驱动工作流（Workflows）与 Agent 抽象的差异，以及在知识密集型任务上的优势。",
     "must_cover": [
       "LlamaIndex 的核心主张：数据接入与 Agent 的耦合方式（索引、查询引擎、工具）",
@@ -294,7 +294,7 @@
     "part": "part-2",
     "title": "AutoGen 与 OpenAI Agents SDK：对话式多 Agent 与轻量编排两条路线",
     "slug": "autogen-agentsdk",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch14-autogen-agentsdk.md",
+    "path": "vol1/part-2/ch14-autogen-agentsdk.md",
     "goal": "并置解剖两条代表性路线：AutoGen 的会话式多 Agent（含 AgentChat 新版）与 OpenAI Agents SDK 的单 Agent + 交接（handoff）+ 护栏模型，比较设计哲学与适用面。",
     "must_cover": [
       "AutoGen Core / AgentChat 的分层：核心 actor 模型 vs 聊天层高阶 API",
@@ -318,7 +318,7 @@
     "part": "part-2",
     "title": "CrewAI：角色—任务—流程心智模型",
     "slug": "crewai",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch15-crewai.md",
+    "path": "vol1/part-2/ch15-crewai.md",
     "goal": "解剖 CrewAI 以角色、任务、流程为核心的心智模型，评估其表达力、可测试性与失败可解释性，并指出它在什么规模下会失效。",
     "must_cover": [
       "Agent（角色 + 目标 +  backstory）、Task、Process（sequential / hierarchical）、Crew 的组装模型",
@@ -340,7 +340,7 @@
     "part": "part-2",
     "title": "PydanticAI、Agno 与 smolagents：类型驱动与轻量路线",
     "slug": "pydanticai-agno-smolagents",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch16-pydanticai-agno-smolagents.md",
+    "path": "vol1/part-2/ch16-pydanticai-agno-smolagents.md",
     "goal": "比较三条追求小而美的框架路线：依赖注入 + 类型安全的 PydanticAI、极简 API 的 Agno、代码优先的 smolagents，说明它们各自的取舍。",
     "must_cover": [
       "PydanticAI：依赖注入、输出类型契约、模型无关抽象、测试友好性",
@@ -363,7 +363,7 @@
     "part": "part-2",
     "title": "Semantic Kernel 与微软 Agent 栈",
     "slug": "semantic-kernel",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch17-semantic-kernel.md",
+    "path": "vol1/part-2/ch17-semantic-kernel.md",
     "goal": "从企业集成视角解剖 Semantic Kernel 与微软后续的 Agent 框架演进：插件/技能、进程编排、AutoGen 到 Agent Framework 的整合，以及 C#/.NET 路线的特点。",
     "must_cover": [
       "Semantic Kernel 的核心抽象：Kernel、Plugin / Function、Prompt Template、Filters",
@@ -386,7 +386,7 @@
     "part": "part-2",
     "title": "TypeScript 生态：Mastra、Vercel AI SDK 与 Agents SDK JS",
     "slug": "ts-ecosystem",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch18-ts-ecosystem.md",
+    "path": "vol1/part-2/ch18-ts-ecosystem.md",
     "goal": "系统对比 TypeScript 侧的 Agent 生态，说明其在流式 UI、边缘运行时、类型契约与全栈一致性上的独特优势与短板。",
     "must_cover": [
       "Vercel AI SDK：useChat / useCompletion 的 UI 优先抽象与流式协议",
@@ -409,7 +409,7 @@
     "part": "part-2",
     "title": "框架选型决策树与十个常见反模式",
     "slug": "framework-selection",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch19-framework-selection.md",
+    "path": "vol1/part-2/ch19-framework-selection.md",
     "goal": "把前七章收敛成可执行的选型结论：一份决策树、一张能力对照表、十个在真实项目中被反复踩到的反模式。",
     "must_cover": [
       "决策树：团队背景 / 任务性质 / 是否多 Agent / 是否需要持久化 / 语言栈 / 部署形态",
@@ -434,7 +434,7 @@
     "part": "part-3",
     "title": "多 Agent 的动机、分工理论与何时不该上多 Agent",
     "slug": "multi-agent-motivation",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch20-multi-agent-motivation.md",
+    "path": "vol1/part-3/ch20-multi-agent-motivation.md",
     "goal": "建立多 Agent 的判据：什么情况下多 Agent 带来真实收益（并行性、上下文隔离、异构能力、权限隔离），什么情况下它只是成本翻倍。",
     "must_cover": [
       "四种真实收益来源：并行探索、子任务上下文隔离、能力异构、权限与信任边界隔离",
@@ -456,7 +456,7 @@
     "part": "part-3",
     "title": "对话式协作：GroupChat 与 CAMEL 角色扮演",
     "slug": "conversation-collab",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch21-conversation-collab.md",
+    "path": "vol1/part-3/ch21-conversation-collab.md",
     "goal": "拆解以对话为协作单位的实现：轮次调度、角色设定、发言选择、终止条件与成本核算，并给出对话协议设计的具体建议。",
     "must_cover": [
       "GroupChat 的轮次控制：自动回复、手动选人、speaker selection 机制",
@@ -477,7 +477,7 @@
     "part": "part-3",
     "title": "SOP 流水线：MetaGPT、ChatDev 与 AgentVerse 的软件公司隐喻",
     "slug": "sop-pipeline",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch22-sop-pipeline.md",
+    "path": "vol1/part-3/ch22-sop-pipeline.md",
     "goal": "分析把人类软件公司流程编码为 Agent 流水线的做法，重点讲清“标准文档作为共享状态”这一关键设计及其收益与脆弱性。",
     "must_cover": [
       "MetaGPT 的 SOP / 标准文档机制：接口定义、需求文档如何成为下游输入",
@@ -498,7 +498,7 @@
     "part": "part-3",
     "title": "协作拓扑与调度：Supervisor、层级、网状、辩论与黑板",
     "slug": "orchestration-topology",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch23-orchestration-topology.md",
+    "path": "vol1/part-3/ch23-orchestration-topology.md",
     "goal": "建立拓扑坐标系，比较五种主流协作拓扑的控制流、上下文共享方式、失败传播路径与适用任务，并给出选型判据。",
     "must_cover": [
       "五种拓扑的控制流图与上下文共享范围对比",
@@ -523,7 +523,7 @@
     "part": "part-3",
     "title": "Agent 间通信协议：MCP、A2A 与内部消息设计",
     "slug": "inter-agent-protocol",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch24-inter-agent-protocol.md",
+    "path": "vol1/part-3/ch24-inter-agent-protocol.md",
     "goal": "厘清 MCP（给 Agent 提供工具与上下文）与 A2A（Agent 之间委托任务）的职责边界，说明两者如何组合，以及在自建 Agent 中如何设计内部消息契约。",
     "must_cover": [
       "MCP 的对象模型：server / client / tools / resources / prompts，以及与 Function Calling 的关系",
@@ -545,7 +545,7 @@
     "part": "part-3",
     "title": "多 Agent 失效模式与成本治理",
     "slug": "multi-agent-failures",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch25-multi-agent-failures.md",
+    "path": "vol1/part-3/ch25-multi-agent-failures.md",
     "goal": "系统列举多 Agent 的典型失效（循环、塌缩、错误放大、协调失败、成本失控），给出检测信号与熔断手段，并沉淀成可监控的指标。",
     "must_cover": [
       "失效清单：无限循环、角色塌缩、共识幻觉、错误放大、委派死锁、上下文污染",
@@ -568,7 +568,7 @@
     "part": "part-4",
     "title": "记忆分类学：工作、情景、语义与程序性记忆",
     "slug": "memory-taxonomy",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch26-memory-taxonomy.md",
+    "path": "vol1/part-4/ch26-memory-taxonomy.md",
     "goal": "建立记忆的四分类坐标系，把认知科学中的记忆分类映射到工程实现，说明每类记忆在 Agent 里究竟存了什么、怎么用。",
     "must_cover": [
       "四类记忆的判定标准与工程映射（工作/情景/语义/程序性）",
@@ -591,7 +591,7 @@
     "part": "part-4",
     "title": "长期记忆实现：向量、摘要与实体图谱三条路线",
     "slug": "long-term-memory",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch27-long-term-memory.md",
+    "path": "vol1/part-4/ch27-long-term-memory.md",
     "goal": "比较三种长期记忆后端的原理、写入/检索机制、失效模式与成本，并用真实开源实现做对照。",
     "must_cover": [
       "向量检索路线：embedding 切块、相似度盲区、为何“语义相似”不等于“该被想起”",
@@ -617,7 +617,7 @@
     "part": "part-4",
     "title": "上下文窗口工程：检索、压缩、淘汰与分层",
     "slug": "context-windowing",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch28-context-windowing.md",
+    "path": "vol1/part-4/ch28-context-windowing.md",
     "goal": "把上下文管理从提示技巧提升为工程：给出四种操作的具体算法、参数与指标，并解释它们如何与提示缓存协同。",
     "must_cover": [
       "分层记忆（Letta 的 core / recall / archival）的检索顺序与触发条件",
@@ -640,7 +640,7 @@
     "part": "part-4",
     "title": "检查点、回放与多 Agent 共享状态",
     "slug": "checkpoint-replay",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch29-checkpoint-replay.md",
+    "path": "vol1/part-4/ch29-checkpoint-replay.md",
     "goal": "讲清状态持久化的工程意义：快照、事件溯源、时间旅行调试、失败恢复，以及多 Agent 之间共享状态的几种模式与一致性代价。",
     "must_cover": [
       "检查点（checkpoint）的数据结构与写入时机：每步、每工具、每消息",
@@ -664,7 +664,7 @@
     "part": "part-4",
     "title": "Agentic RAG：让检索从预处理变成主动决策",
     "slug": "agentic-rag",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch30-agentic-rag.md",
+    "path": "vol1/part-4/ch30-agentic-rag.md",
     "goal": "解释 Agentic RAG 的范式转变：检索不再是流水线固定步骤，而是 Agent 根据当前状态自主决定查询、分解、验证与再检索，并给出实现骨架。",
     "must_cover": [
       "朴素 RAG 与 Agentic RAG 的架构差异与失败模式对比",
@@ -690,7 +690,7 @@
     "part": "part-5",
     "title": "沙箱与执行隔离",
     "slug": "sandbox",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch31-sandbox.md",
+    "path": "vol1/part-5/ch31-sandbox.md",
     "goal": "系统讲清 Agent 执行不可信代码时的隔离技术：容器、gVisor、seccomp、进程级隔离、浏览器沙箱、网络策略与资源配额。",
     "must_cover": [
       "威胁模型：Agent 执行的代码、命令、网页内容都是不可信输入",
@@ -713,7 +713,7 @@
     "part": "part-5",
     "title": "提示注入与越权防护",
     "slug": "prompt-injection",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch32-prompt-injection.md",
+    "path": "vol1/part-5/ch32-prompt-injection.md",
     "goal": "建立 Agent 安全的威胁模型：区分提示注入、工具滥用、越权与数据外泄，给出纵深防御方案与残余风险的真实评估。",
     "must_cover": [
       "威胁分类：直接注入、间接注入（网页/文档/工具返回）、越权调用、记忆投毒、数据外泄",
@@ -734,7 +734,7 @@
     "part": "part-5",
     "title": "可观测性：Trace、Span 与 Agent 专属指标",
     "slug": "observability",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch33-observability.md",
+    "path": "vol1/part-5/ch33-observability.md",
     "goal": "讲清 Agent 可观测性与传统服务可观测性的差异，给出 Trace/Span 语义设计、事件命名规范、关键 SLI，以及开源栈的落地方式。",
     "must_cover": [
       "Agent 调用链的语义：一次任务 = 多个 LLM span + 多个工具 span + 嵌套 Agent span",
@@ -761,7 +761,7 @@
     "part": "part-5",
     "title": "评测体系：基准、任务集、LLM-as-Judge 与回归测试",
     "slug": "evaluation",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch34-evaluation.md",
+    "path": "vol1/part-5/ch34-evaluation.md",
     "goal": "建立 Agent 评测的方法论：主流基准的能力边界、自建任务集的设计方法、判定器的偏差控制，以及如何把评测接进 CI 形成回归。",
     "must_cover": [
       "主流基准逐个剖析：SWE-bench / GAIA / WebArena / BFCL / τ-bench / OSWorld / MCP-Bench / AgentBench 的测什么、不测什么",
@@ -788,7 +788,7 @@
     "part": "part-5",
     "title": "成本与性能优化",
     "slug": "cost-performance",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch35-cost-performance.md",
+    "path": "vol1/part-5/ch35-cost-performance.md",
     "goal": "把成本当作一等工程指标：建立成本模型，掌握提示缓存、模型路由、并发、结果复用、上下文裁剪等手段及其对延迟与质量的副作用。",
     "must_cover": [
       "成本模型：一次任务的总 token 分解（输入/输出/缓存命中/工具往返）",
@@ -807,7 +807,7 @@
     "part": "part-5",
     "title": "生产化检查清单与真实故障模式",
     "slug": "production-checklist",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch36-production-checklist.md",
+    "path": "vol1/part-5/ch36-production-checklist.md",
     "goal": "把前五卷的结论固化为可执行的上线清单，并复盘若干真实故障模式，说明它们在架构上的根因。",
     "must_cover": [
       "上线前检查清单（按基础设施 / 模型与提示 / 工具 / 安全 / 观测 / 评测 / 成本 / 合规 分组）",
@@ -830,7 +830,7 @@
     "part": "part-6",
     "title": "代码智能体与仓库级自治",
     "slug": "coding-agents",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch37-coding-agents.md",
+    "path": "vol1/part-6/ch37-coding-agents.md",
     "goal": "解剖代码智能体的架构分野：补丁式（SWE-agent）、命令式（OpenHands）、编辑器式（Cline/Roo）、CLI 式（Claude Code / OpenCode / Aider）与它们在检索、编辑、验证、上下文上的不同策略。",
     "must_cover": [
       "五种形态的架构差异：搜索策略（grep/embedding/树索引）、编辑机制（diff/patch/全量重写）、验证回路（测试/构建/lint）",
@@ -856,7 +856,7 @@
     "part": "part-6",
     "title": "计算机使用与 GUI Agent",
     "slug": "computer-use",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch38-computer-use.md",
+    "path": "vol1/part-6/ch38-computer-use.md",
     "goal": "讲清 GUI Agent 的技术现实：屏幕感知与定位、动作空间设计、grounding 模型、慢与脆弱的特性，以及它与 DOM 级自动化的取舍。",
     "must_cover": [
       "动作空间设计：鼠标/键盘/滚动的粒度与多步合成的取舍",
@@ -882,7 +882,7 @@
     "part": "part-6",
     "title": "协议与生态全景：MCP、A2A、AG-UI、Skills 与插件体系",
     "slug": "protocol-ecosystem",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch39-protocol-ecosystem.md",
+    "path": "vol1/part-6/ch39-protocol-ecosystem.md",
     "goal": "绘制协议层全景图，明确每个协议解决哪一层问题、如何组合，以及 Skills / 子代理 / 插件这类能力扩展范式的出现与意义。",
     "must_cover": [
       "协议分层图：模型 API 层 / 工具上下文层（MCP）/ 委托执行层（A2A）/ 用户交互层（AG-UI）/ 能力封装层（Skills）",
@@ -904,7 +904,7 @@
     "part": "part-6",
     "title": "自举与自我改进：AutoGPT 的教训与演化式改进",
     "slug": "self-improvement",
-    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch40-self-improvement.md",
+    "path": "vol1/part-6/ch40-self-improvement.md",
     "goal": "复盘自我改进 Agent 的三条路线（自主循环、程序演化、模型自训练），分析各自机制、实证结果与安全边界，给出清醒的判断。",
     "must_cover": [
       "AutoGPT 式自主循环为何在实践中迅速失效：无目标验证、错误累积、无成本边界",

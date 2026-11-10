@@ -4,7 +4,7 @@
 # ANSI codepage, so any CJK literal here corrupts the parse.
 $ErrorActionPreference = 'Continue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-$root = 'D:\Creater\Dragon_agent\agent-book'
+$root = Split-Path -Parent $PSScriptRoot
 $UA = 'Mozilla/5.0 (compatible; agent-book-editorial/1.0)'
 
 $docs = @()

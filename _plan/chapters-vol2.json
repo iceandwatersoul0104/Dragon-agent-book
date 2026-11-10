@@ -3,7 +3,7 @@
   "volTitle": "第二卷 · 自建 Agent 实践手册",
   "audience": "准备动手写一个自己的 Agent 的工程师；读完第一卷后进入实践",
   "projectName": "dragon-agent",
-  "projectRoot": "D:/Creater/Dragon_agent/agent-book/dragon-agent",
+  "projectRoot": "dragon-agent",
   "projectLayout": [
     "dragon_agent/config.py        统一配置（模型、预算、路径）",
     "dragon_agent/llm.py           模型客户端抽象：mock 与真实 API 双模式，统一的响应对象",
