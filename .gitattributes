@@ -1,0 +1,24 @@
+# 本书是纯文本书稿 + 纯标准库 Python 代码，统一用 LF。
+# 锁死 eol 后，任何平台 clone 出来的行尾都一样，
+# `_plan/_lint.py` 的「CRLF/LF 行尾混用」检查才不会被 checkout 时的自动转换打破。
+* text=auto eol=lf
+
+# 二进制文件不做行尾转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.whl binary
+
+# 明确按文本处理
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.ps1 text eol=lf
+*.sh text eol=lf

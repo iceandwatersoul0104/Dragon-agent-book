@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dragon-agent"
+version = "1.0"
+description = "《开源 Agent 架构技术全书》第二卷《自建 Agent 实践手册》配套工程：纯标准库实现的 Agent 框架"
+readme = "README.md"
+requires-python = ">=3.9"
+
+# 运行期零第三方依赖：整套框架只用 Python 标准库。
+dependencies = []
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Education",
+]
+
+# 本工程尚未确定开源许可证，因此这里不声明 license 字段——
+# 不替作者编造许可证，也不用占位符假装已授权。
+# 决定许可证后，把下面两行替换成正式声明即可：
+#   license = { text = "<许可证名称>" }
+#   license-files = ["LICENSE"]
+
+[project.scripts]
+dragon-agent = "dragon_agent.cli:main"
+
+[tool.setuptools]
+packages = ["dragon_agent"]

@@ -1,0 +1,176 @@
+{
+  "part-0": {
+    "title": "导论：什么是 Agent，以及为什么需要架构",
+    "chapters": [
+      "ch01",
+      "ch02",
+      "ch03"
+    ],
+    "refs": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "PydanticAI | https://github.com/pydantic/pydantic-ai | MIT | 以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用"
+    ]
+  },
+  "part-1": {
+    "title": "单体 Agent 的核心模式",
+    "chapters": [
+      "ch04",
+      "ch05",
+      "ch06",
+      "ch07",
+      "ch08",
+      "ch09",
+      "ch10",
+      "ch11"
+    ],
+    "refs": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估",
+      "DSPy | https://github.com/stanfordnlp/dspy | MIT | 用声明式签名编写 LM 程序，再自动优化提示与示例",
+      "PydanticAI | https://github.com/pydantic/pydantic-ai | MIT | 以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+      "Aider | https://github.com/Aider-AI/aider | Apache-2.0 | 生成仓库地图并把每次修改自动提交成 git commit",
+      "OpenHands | https://github.com/All-Hands-AI/OpenHands | MIT | Docker 沙箱里的通用开发智能体平台，可脚本化自主执行",
+      "Letta (MemGPT) | https://github.com/letta-ai/letta | Apache-2.0 | 把 Agent 当作常驻服务，自主读写记忆并改写自身状态",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流"
+    ]
+  },
+  "part-2": {
+    "title": "开源编排框架横向解剖",
+    "chapters": [
+      "ch12",
+      "ch13",
+      "ch14",
+      "ch15",
+      "ch16",
+      "ch17",
+      "ch18",
+      "ch19"
+    ],
+    "refs": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估",
+      "LlamaIndex | https://github.com/run-llama/llama_index | MIT | 以数据连接器与索引为中心，为 Agent 提供检索与工作流引擎",
+      "Haystack | https://github.com/deepset-ai/haystack | Apache-2.0 | 把检索、生成与 Agent 拆成组件，用显式管道控制数据流向",
+      "Microsoft Agent Framework | https://github.com/microsoft/agent-framework | MIT | 融合 AutoGen 与 Semantic Kernel，统一 Agent、工作流与部署",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "PydanticAI | https://github.com/pydantic/pydantic-ai | MIT | 以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+      "Agno | https://github.com/agno-agi/agno | Apache-2.0 | 以 Agent、Team、Workflow 组织多 Agent，AgentOS 承载持久运行",
+      "Semantic Kernel | https://github.com/microsoft/semantic-kernel | MIT | 以插件、技能、记忆与计划为企业应用接入 LLM",
+      "MCP TypeScript SDK | https://github.com/modelcontextprotocol/typescript-sdk | 存量 MIT，新贡献 Apache-2.0 | 官方 TS SDK，main 为 v2，对应 2026-07-28 规范"
+    ]
+  },
+  "part-3": {
+    "title": "多 Agent 协作体系",
+    "chapters": [
+      "ch20",
+      "ch21",
+      "ch22",
+      "ch23",
+      "ch24",
+      "ch25"
+    ],
+    "refs": [
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "Qwen-Agent | https://github.com/QwenLM/Qwen-Agent | Apache-2.0 | 基于 Qwen 打通函数调用、MCP、代码解释与 RAG",
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "Microsoft Agent Framework | https://github.com/microsoft/agent-framework | MIT | 融合 AutoGen 与 Semantic Kernel，统一 Agent、工作流与部署",
+      "AgentScope | https://github.com/agentscope-ai/agentscope | Apache-2.0 | 面向多 Agent 协作的框架，配 Studio 可视化调试与追踪",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "A2A Protocol | https://github.com/a2aproject/A2A | Apache-2.0 | Linux Foundation 治理的 Agent 间通信协议，含 Agent Card 与 Task"
+    ]
+  },
+  "part-4": {
+    "title": "记忆、上下文与状态",
+    "chapters": [
+      "ch26",
+      "ch27",
+      "ch28",
+      "ch29",
+      "ch30"
+    ],
+    "refs": [
+      "Letta (MemGPT) | https://github.com/letta-ai/letta | Apache-2.0 | 把 Agent 当作常驻服务，自主读写记忆并改写自身状态",
+      "Mem0 | https://github.com/mem0ai/mem0 | Apache-2.0 | 用 LLM 抽取并更新用户事实的独立记忆层",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具",
+      "Zep | https://github.com/getzep/zep | Apache-2.0 | 官方 Zep 仓库，现以示例与集成代码为主",
+      "Graphiti | https://github.com/getzep/graphiti | Apache-2.0 | 增量构建带时间有效期的实体关系图谱记忆",
+      "Cognee | https://github.com/topoteretes/cognee | Apache-2.0 | 用小模型把数据加工成可检索的知识图谱记忆",
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "LlamaIndex | https://github.com/run-llama/llama_index | MIT | 以数据连接器与索引为中心，为 Agent 提供检索与工作流引擎",
+      "RAGFlow | https://github.com/infiniflow/ragflow | Apache-2.0 | 以深度文档解析构建上下文，再由 Agent 基于证据作答",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估"
+    ]
+  },
+  "part-5": {
+    "title": "工程化：安全、可观测、评测与成本",
+    "chapters": [
+      "ch31",
+      "ch32",
+      "ch33",
+      "ch34",
+      "ch35",
+      "ch36"
+    ],
+    "refs": [
+      "browser-use | https://github.com/browser-use/browser-use | MIT | 用无障碍树给 LLM 描述页面元素，自主点击输入完成任务",
+      "Stagehand | https://github.com/browserbase/stagehand | MIT | 把 act/observe/extract 与确定性 Playwright API 混搭",
+      "OpenHands | https://github.com/All-Hands-AI/OpenHands | MIT | Docker 沙箱里的通用开发智能体平台，可脚本化自主执行",
+      "Claude Code | https://github.com/anthropics/claude-code | 专有（Anthropic 商业条款） | 终端里的编码智能体，读代码改代码跑命令并管 git",
+      "Zep | https://github.com/getzep/zep | Apache-2.0 | 官方 Zep 仓库，现以示例与集成代码为主",
+      "Langfuse | https://github.com/langfuse/langfuse | MIT(核心) + EE 目录企业许可 | 自托管的 Agent 追踪、评估与提示管理平台",
+      "Arize Phoenix | https://github.com/Arize-ai/phoenix | Elastic License 2.0 | 基于 OpenTelemetry 的 LLM 追踪与嵌入评估",
+      "OpenLLMetry | https://github.com/traceloop/openllmetry | Apache-2.0 | 自动插桩把 LLM 调用转成 OpenTelemetry span",
+      "AgentOps | https://github.com/AgentOps-AI/agentops | MIT | 记录 Agent 运行轨迹、错误与会话回放的 SDK",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估",
+      "OpenTelemetry GenAI 语义约定 | https://github.com/open-telemetry/semantic-conventions | Apache-2.0 | 规定 GenAI span、事件与属性命名的跨厂商约定",
+      "SWE-bench | https://github.com/SWE-bench/SWE-bench | MIT | 真实 GitHub issue 的修复成功率基准",
+      "GAIA | https://huggingface.co/datasets/gaia-benchmark/GAIA | 未标注(gated 受限数据集) | 工具增强型通用助理的多级问答基准",
+      "WebArena | https://github.com/web-arena-x/webarena | Apache-2.0 | 在真实可复现网站上完成浏览下单等自主任务",
+      "tau-bench | https://github.com/sierra-research/tau-bench | MIT | 模拟用户与领域规则下的多轮客服任务评测",
+      "OSWorld | https://github.com/xlang-ai/OSWorld | Apache-2.0 | 真实桌面环境中多模态 GUI 操作任务评测",
+      "BFCL | https://github.com/gorilla-llm/Berkeley-Function-Calling-Leaderboard | Apache-2.0 | 函数与工具调用的准确性及多轮 agentic 评测",
+      "MCP-Bench | https://github.com/zyy07/MCPBench | Apache-2.0 | 同模型同配置下横向对比 MCP 服务器质量",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流"
+    ]
+  },
+  "part-6": {
+    "title": "前沿范式：代码智能体、GUI Agent、协议生态与自举",
+    "chapters": [
+      "ch37",
+      "ch38",
+      "ch39",
+      "ch40"
+    ],
+    "refs": [
+      "Claude Code | https://github.com/anthropics/claude-code | 专有（Anthropic 商业条款） | 终端里的编码智能体，读代码改代码跑命令并管 git",
+      "OpenCode | https://github.com/anomalyco/opencode | MIT | Go 写的终端编码智能体，模型无关且客户端-服务端分离",
+      "Cline | https://github.com/cline/cline | Apache-2.0 | IDE 侧边栏智能体，每步 git checkpoint 可回滚",
+      "Aider | https://github.com/Aider-AI/aider | Apache-2.0 | 生成仓库地图并把每次修改自动提交成 git commit",
+      "OpenHands | https://github.com/All-Hands-AI/OpenHands | MIT | Docker 沙箱里的通用开发智能体平台，可脚本化自主执行",
+      "SWE-bench | https://github.com/SWE-bench/SWE-bench | MIT | 真实 GitHub issue 的修复成功率基准",
+      "Playwright | https://github.com/microsoft/playwright | Apache-2.0 | 跨 Chromium/Firefox/WebKit 的统一 API 与自动等待机制",
+      "browser-use | https://github.com/browser-use/browser-use | MIT | 用无障碍树给 LLM 描述页面元素，自主点击输入完成任务",
+      "Stagehand | https://github.com/browserbase/stagehand | MIT | 把 act/observe/extract 与确定性 Playwright API 混搭",
+      "Skyvern | https://github.com/Skyvern-AI/skyvern | AGPL-3.0 | 视觉模型直接看渲染页面，用多智能体群完成表单类流程",
+      "UI-TARS Desktop | https://github.com/bytedance/UI-TARS-desktop | Apache-2.0 | 基于 UI-TARS 视觉模型的本地 GUI 智能体，可控桌面与浏览器",
+      "OmniParser | https://github.com/microsoft/OmniParser | CC-BY-4.0 | 把屏幕截图解析成结构化可交互元素，支撑纯视觉 GUI 智能体",
+      "AG-UI | https://github.com/ag-ui-protocol/ag-ui | MIT | 事件驱动的 Agent-前端协议，约 16 类标准事件"
+    ]
+  }
+}

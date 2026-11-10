@@ -1,0 +1,292 @@
+# dragon-agent 的 Kubernetes 清单：Deployment + 配置 + 密钥 + ServiceAccount
+# + NetworkPolicy + PodDisruptionBudget + CronJob。
+#
+# 这份清单的取舍：
+#
+#   - **只读根 + 非 root**（securityContext）：与 Dockerfile 里的用户对齐，
+#     两边必须一致——Dockerfile 说 uid 10001，编排层也得是 10001，
+#     否则挂载卷的属主对不上。
+#   - **探针用 exec 而不是 httpGet**：本工程的 CLI 是**一次性命令行**，
+#     没有 HTTP 服务端。就绪探针跑的是 ``dragon_agent.cli tools``——
+#     不联网、不调模型、只读内存，退出码 0 即健康。写成 httpGet 会得到
+#     一个永远连不上的探针。
+#   - **NetworkPolicy 是「最小出网」真正落地的地方**：K8s 默认网络是放行的，
+#     一个策略就能把出网收成白名单。
+#   - **Secret 不写值**：下面只是一个模板。真实值由密钥管理系统注入，
+#     轮换流程见 ``deploy/README.md``。
+#
+# 把下面的占位符换掉再上生产：
+#   - ``<模型服务网段>``：模型 API 的实际出口网段；
+#   - ``<内部服务网段>``：工具依赖所在的内部网段；
+#   - ``<镜像仓库>/dragon-agent:1.0``：真实的镜像地址与 tag。
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dragon-agent
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dragon-agent
+  namespace: dragon-agent
+# 自动挂载 ServiceAccount token：默认关闭。
+# 容器不需要主动调 K8s API，关掉能少一枚可用的凭证。
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dragon-agent-config
+  namespace: dragon-agent
+data:
+  # 非密配置走 ConfigMap：模型标识、预算阈值、工作目录。
+  # 改这些不用重启全部 Pod——ConfigMap 变更会触发滚动更新。
+  LLM_MODEL: "mock-model"
+  LLM_BASE_URL: "https://api.openai.com/v1"
+  DRAGON_WORKSPACE: "/workspace"
+  DRAGON_TRACE_DIR: "/workspace/traces"
+  PYTHONUNBUFFERED: "1"
+  # 成本护栏的档位（与 cli.py 的默认值一致）。
+  DRAGON_WARN_RATIO: "0.8"
+  DRAGON_DEGRADE_RATIO: "0.9"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dragon-agent-secret
+  namespace: dragon-agent
+  annotations:
+    # 标注轮换周期：到点没轮换，审计会报。
+    secret.rotation.days: "30"
+type: Opaque
+stringData:
+  # **模板**。真实部署里不要把值提交进版本库——用密钥管理系统（External
+  # Secrets、Sealed Secrets 或云厂商的 KMS）在集群内生成这份 Secret。
+  LLM_API_KEY: "<在此注入，不要提交真实值>"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dragon-agent
+  namespace: dragon-agent
+  labels:
+    app: dragon-agent
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: dragon-agent
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: dragon-agent
+    spec:
+      serviceAccountName: dragon-agent
+      automountServiceAccountToken: false
+      securityContext:
+        # Pod 级别的安全上下文：与容器级别一起生效，取更严的那个。
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: agent
+          image: "<镜像仓库>/dragon-agent:1.0"
+          imagePullPolicy: IfNotPresent
+          args: ["chat"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            privileged: false
+            capabilities:
+              drop: ["ALL"]
+          envFrom:
+            - configMapRef:
+                name: dragon-agent-config
+          env:
+            - name: LLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dragon-agent-secret
+                  key: LLM_API_KEY
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: workspace
+              mountPath: /workspace
+            - name: traces
+              mountPath: /workspace/traces
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              # 上限是「一个任务失控时的兜底」，不是容量规划。
+              cpu: "2"
+              memory: "1Gi"
+          startupProbe:
+            exec:
+              command: ["python", "-m", "dragon_agent.cli", "tools"]
+            failureThreshold: 10
+            periodSeconds: 3
+          livenessProbe:
+            exec:
+              command: ["python", "-m", "dragon_agent.cli", "tools"]
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command: ["python", "-m", "dragon_agent.cli", "tools"]
+            periodSeconds: 5
+            failureThreshold: 2
+      volumes:
+        # /tmp 走 emptyDir：只读根下唯一该可写的地方。
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
+        - name: workspace
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: traces
+          emptyDir:
+            sizeLimit: 2Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dragon-agent-egress
+  namespace: dragon-agent
+spec:
+  podSelector:
+    matchLabels:
+      app: dragon-agent
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # 只允许同命名空间内的服务访问。
+    - from:
+        - podSelector: {}
+  egress:
+    # DNS：解析模型服务与内部服务名。
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # 模型 API：只放行模型服务的网段。
+    # **占位符**——换成真实网段，否则这条规则等于把流量全放行。
+    - to:
+        - ipBlock:
+            cidr: "<模型服务网段>"
+      ports:
+        - protocol: TCP
+          port: 443
+    # 工具依赖所在的内部网段。
+    - to:
+        - ipBlock:
+            cidr: "<内部服务网段>"
+      ports:
+        - protocol: TCP
+          port: 443
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: dragon-agent
+  namespace: dragon-agent
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: dragon-agent
+---
+# 定时任务：日报、对账、批量整理这类"跑一次就结束"的活。
+# 一次性任务用 Job，比常驻 Deployment 省资源得多。
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dragon-agent-daily-report
+  namespace: dragon-agent
+spec:
+  schedule: "17 9 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: dragon-agent
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            fsGroup: 10001
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: agent
+              image: "<镜像仓库>/dragon-agent:1.0"
+              args:
+                - "run"
+                - "汇总昨天的项目预算并发出日报"
+                - "--budget"
+                - "120000"
+                - "--cost"
+                - "0.50"
+                - "--max-steps"
+                - "12"
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                privileged: false
+                capabilities:
+                  drop: ["ALL"]
+              envFrom:
+                - configMapRef:
+                    name: dragon-agent-config
+              env:
+                - name: LLM_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: dragon-agent-secret
+                      key: LLM_API_KEY
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+                - name: traces
+                  mountPath: /workspace/traces
+              resources:
+                requests:
+                  cpu: "250m"
+                  memory: "256Mi"
+                limits:
+                  cpu: "2"
+                  memory: "1Gi"
+          volumes:
+            - name: tmp
+              emptyDir:
+                medium: Memory
+                sizeLimit: 64Mi
+            - name: traces
+              emptyDir:
+                sizeLimit: 2Gi

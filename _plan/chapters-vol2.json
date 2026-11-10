@@ -1,0 +1,207 @@
+{
+  "bookTitle": "开源 Agent 架构技术全书",
+  "volTitle": "第二卷 · 自建 Agent 实践手册",
+  "audience": "准备动手写一个自己的 Agent 的工程师；读完第一卷后进入实践",
+  "projectName": "dragon-agent",
+  "projectRoot": "D:/Creater/Dragon_agent/agent-book/dragon-agent",
+  "projectLayout": [
+    "dragon_agent/config.py        统一配置（模型、预算、路径）",
+    "dragon_agent/llm.py           模型客户端抽象：mock 与真实 API 双模式，统一的响应对象",
+    "dragon_agent/tools.py         工具注册、schema 校验、错误回灌、幂等标注",
+    "dragon_agent/context.py       上下文装配器：预算分配、检索、压缩、淘汰",
+    "dragon_agent/agent.py         Agent 主循环：规划、行动、观察、停止准则、预算守卫",
+    "dragon_agent/state.py         任务状态机、检查点与回放",
+    "dragon_agent/memory.py        短期/长期记忆：向量、摘要、实体图谱三条路线的最小实现",
+    "dragon_agent/guardrails.py    工具分级、二次确认、提示注入防护",
+    "dragon_agent/orchestration.py 编排层：单 Agent 升级到多 Agent 的判据与 Supervisor 实现",
+    "dragon_agent/mcp_server.py    把工具暴露为 MCP server",
+    "dragon_agent/observability.py OpenTelemetry 风格的结构化 trace 与成本核算",
+    "dragon_agent/evaluation.py    自建任务集、判定器、回归对比",
+    "dragon_agent/cli.py           命令行入口",
+    "tests/                        确定性测试与回归基线"
+  ],
+  "chapters": [
+    {
+      "id": "p01", "slug": "scoping", "title": "立项：把想法变成一份可执行的需求",
+      "goal": "教读者在写第一行代码前，用一份需求说明把\"我想做个 Agent\"变成可验收的规格：能力边界、输入输出、失败定义、不做什么。",
+      "must_cover": [
+        "Agent 规格模板：任务定义 / 输入输出契约 / 可用工具清单 / 成功判据 / 明确不做的事",
+        "把\"智能\"翻译成可观测的成功判据（能被评测的粒度）",
+        "划边界：哪些步骤交给 LLM 决策、哪些必须是确定性代码",
+        "识别伪需求：哪些其实是普通工作流，不值得上 Agent",
+        "一份真实需求说明的完整范例（自建代码审查 Agent 场景）"
+      ],
+      "projects": ["OpenAI Evals", "promptfoo", "SWE-bench"],
+      "code": true, "code_dir": "p01-scoping", "target_chars": 3200
+    },
+    {
+      "id": "p02", "slug": "skeleton", "title": "工程骨架：目录、配置与错误处理约定",
+      "goal": "给出可直接照抄的项目骨架：分层约定、配置管理、日志规范、异常分类，以及一份能跑起来的 hello-world 入口。",
+      "must_cover": [
+        "分层约定：模型层 / 工具层 / 编排层 / 应用层的职责边界与依赖方向",
+        "配置管理：环境变量、默认值、配置校验失败要早失败",
+        "错误分类：模型错误 / 工具错误 / 编排错误 / 外部依赖错误，不同类别不同处理策略",
+        "日志规范：结构化字段、trace_id 贯穿、敏感字段脱敏",
+        "可运行的工程骨架与第一个测试"
+      ],
+      "projects": ["Pydantic Settings", "Python logging", "structlog"],
+      "code": true, "code_dir": "p02-skeleton", "target_chars": 3200
+    },
+    {
+      "id": "p03", "slug": "llm-client", "title": "模型接入抽象：让 mock 与真实 API 共存",
+      "goal": "实现一个统一的 LLM 客户端：同一套调用接口同时支持离线 mock 与真实 API，并把 token、成本、缓存命中纳入响应对象，为后续所有章节打底。",
+      "must_cover": [
+        "统一的请求/响应对象设计：消息、工具声明、采样参数、用量统计",
+        "mock 模式的设计：脚本化响应、确定性回放、如何让离线开发不成为自欺欺人",
+        "真实 API 的错误处理：重试、退避、幂等请求、限流",
+        "用量与成本核算：token 计数、单价表、缓存命中与未命中分别计价",
+        "如何为模型客户端写契约测试，保证 mock 与真实行为一致"
+      ],
+      "projects": ["OpenAI Python SDK", "Anthropic SDK", "httpx", "tenacity", "LiteLLM"],
+      "code": true, "code_dir": "p03-llm-client", "target_chars": 3400
+    },
+    {
+      "id": "p04", "slug": "tool-layer", "title": "工具层：注册、校验、错误回灌与副作用",
+      "goal": "把工具做成真正的契约层：声明式注册、参数校验、错误回灌、幂等与副作用标注，让工具可以被安全地交给模型调用。",
+      "must_cover": [
+        "声明式工具注册：用类型注解自动生成 JSON Schema，并写好给模型看的描述",
+        "参数校验失败的处理：把结构化错误回灌给模型而不是抛异常",
+        "错误回灌的三种形态与各自的适用场景",
+        "副作用工具的标注：只读 / 可逆写 / 不可逆写，分别对应的重试与审批策略",
+        "并行工具调用的结果对齐与失败隔离"
+      ],
+      "projects": ["Pydantic", "jsonschema", "MCP", "OpenAI Function Calling", "instructor"],
+      "code": true, "code_dir": "p04-tool-layer", "target_chars": 3400
+    },
+    {
+      "id": "p05", "slug": "context-assembler", "title": "上下文装配器：把提示词变成资源分配",
+      "goal": "实现一个可测试的上下文装配器：按预算分配各区段、检索、压缩、淘汰，并让装配结果可观测可断言。",
+      "must_cover": [
+        "预算分配器：系统提示 / 工具定义 / 任务 / 历史 / 检索各占多少，超了怎么裁",
+        "四种操作的实现：分层、检索、压缩、淘汰，以及它们的可组合顺序",
+        "稳定前缀的组织方式：如何让提示缓存真正命中",
+        "装配结果的可观测性：每区段占多少 token、被淘汰了什么",
+        "对装配器写单元测试：给定预算与输入，断言输出确定"
+      ],
+      "projects": ["Anthropic Prompt Caching", "Letta", "LangGraph", "Jinja2"],
+      "code": true, "code_dir": "p05-context-assembler", "target_chars": 3400
+    },
+    {
+      "id": "p06", "slug": "agent-loop", "title": "Agent 主循环：带预算守卫的 ReAct",
+      "goal": "从零实现一个可靠的 Agent 主循环：规划、行动、观察、停止准则、无进展检测、预算守卫与优雅降级，并给出测试策略。",
+      "must_cover": [
+        "主循环的骨架代码：状态推进、动作解析、工具调用、观察回灌",
+        "停止准则的四种实现：显式完成、预算耗尽、无进展、异常终止",
+        "无进展检测：动作重复、观察不变、状态无变化三种信号",
+        "预算守卫的统一抽象：token、时间、美元三种预算如何共用一个接口",
+        "对主循环写确定性测试：用 mock 模型驱动各种失败与终止路径"
+      ],
+      "projects": ["ReAct", "smolagents", "OpenAI Agents SDK", "LangGraph"],
+      "code": true, "code_dir": "p06-agent-loop", "target_chars": 3600
+    },
+    {
+      "id": "p07", "slug": "state-checkpoint", "title": "状态与检查点：让任务可回放、可恢复",
+      "goal": "把 Agent 循环的状态显式化：可序列化状态对象、检查点写入、事件溯源式回放，以及从失败点恢复时的副作用去重。",
+      "must_cover": [
+        "状态对象设计：什么进状态、什么只在内存、什么必须落盘",
+        "检查点时机：每步 / 每工具 / 每消息，以及各自的成本",
+        "事件溯源 vs 快照：选型判据与实现",
+        "回放：如何从任意检查点重跑并对比结果",
+        "崩溃恢复与副作用去重：幂等键、已执行动作登记"
+      ],
+      "projects": ["LangGraph checkpointer", "Temporal", "SQLite", "Pydantic"],
+      "code": true, "code_dir": "p07-state-checkpoint", "target_chars": 3200
+    },
+    {
+      "id": "p08", "slug": "memory", "title": "记忆模块：把\"记住\"做成可控的读写",
+      "goal": "实现一个够用的记忆模块：明确写入时机、区分四类记忆、给出向量与实体图谱两条最小实现，并让记忆可被评测。",
+      "must_cover": [
+        "记忆接口设计：读 / 写 / 遗忘 / 检索，以及写入时机的判断规则",
+        "短期与长期记忆的边界：什么进上下文、什么进存储",
+        "向量记忆的最小实现：切块、嵌入、检索，以及相似度盲区的应对",
+        "实体图谱记忆的最小实现：实体抽取、关系边、检索",
+        "记忆评测：怎么测\"该想起时想起了\"，而不是只看检索命中率"
+      ],
+      "projects": ["Letta", "MemGPT", "Mem0", "Graphiti", "Zep", "chroma", "sqlite-vec"],
+      "code": true, "code_dir": "p08-memory", "target_chars": 3400
+    },
+    {
+      "id": "p09", "slug": "guardrails", "title": "护栏与权限：能力最小化",
+      "goal": "实现可落地的护栏层：工具分级、二次确认、来源信任标记、提示注入检测，并把残余风险讲清楚。",
+      "must_cover": [
+        "能力最小化：把工具拆成只读 / 可逆写 / 不可逆写三档，分别的授权流程",
+        "二次确认的实现：哪些动作必须人工确认，确认卡片该展示什么",
+        "提示注入的检测与缓解：不可信内容分区、来源标记、危险动作拦截",
+        "越权防护：路径约束、资源约束、速率约束",
+        "残余风险：为什么这套防线不是保险箱，以及如何诚实地描述它"
+      ],
+      "projects": ["OWASP LLM Top 10", "Claude Code permission modes", "OpenAI Guardrails", "NeMo Guardrails"],
+      "code": true, "code_dir": "p09-guardrails", "target_chars": 3400
+    },
+    {
+      "id": "p10", "slug": "orchestration", "title": "编排层：从单 Agent 到多 Agent 的升级路径",
+      "goal": "给出多 Agent 升级的判据与实现：先在单 Agent 上做不到什么才升级，升级时选哪种拓扑，以及 Supervisor 与共享状态怎么写。",
+      "must_cover": [
+        "升级判据：并行性、上下文隔离、能力异构、权限隔离——缺一个都别上多 Agent",
+        "拓扑选择：Supervisor / 层级 / 网状 / 黑板，各自的实现代价",
+        "Supervisor 的实现：派单、回收、判定完成",
+        "多 Agent 共享状态的三种方式：共享内存、共享文档、消息传递",
+        "成本与循环的熔断：最大轮次、无进展检测、强制收敛与单 Agent 回退"
+      ],
+      "projects": ["AutoGen", "LangGraph", "CrewAI", "Microsoft Agent Framework"],
+      "code": true, "code_dir": "p10-orchestration", "target_chars": 3400
+    },
+    {
+      "id": "p11", "slug": "protocols", "title": "协议接入：把你的 Agent 变成 MCP Server 与 A2A 节点",
+      "goal": "把自建 Agent 的能力标准化：实现一个 MCP server 暴露工具，理解 A2A 的委托语义，让别的系统能调用你的 Agent。",
+      "must_cover": [
+        "MCP server 的最小实现：声明工具、接收调用、返回结果、错误如何表达",
+        "MCP server 与本地函数调用的差异：跨进程、鉴权、会话",
+        "A2A 的委托语义：AgentCard 怎么写、Task 怎么推进、Artifact 怎么交付",
+        "把内部工具同时暴露为 MCP 与内部调用，避免两套实现",
+        "协议的版本与兼容性：如何避免被协议演进锁死"
+      ],
+      "projects": ["MCP", "MCP Python SDK", "A2A Protocol", "A2A Python SDK"],
+      "code": true, "code_dir": "p11-protocols", "target_chars": 3200
+    },
+    {
+      "id": "p12", "slug": "observability", "title": "可观测性：接上 trace、指标与成本账",
+      "goal": "给自己造的 Agent 接上工程级可观测性：trace 语义、关键 SLI、成本核算与脱敏，让每次运行都能复盘。",
+      "must_cover": [
+        "Span 语义设计：任务 / LLM 调用 / 工具调用 / 嵌套 Agent 的父子关系",
+        "关键指标：任务成功率、步数分布、工具错误率、无进展率、每次成功成本",
+        "成本账的实现：每次任务归集 token 与金额，能按维度拆分",
+        "脱敏与采样：哪些字段不能进日志，怎么采样而不丢长尾问题",
+        "接入开源栈：OpenTelemetry / Langfuse 的最小接线方式"
+      ],
+      "projects": ["OpenTelemetry", "Langfuse", "OpenLLMetry", "Traceloop"],
+      "code": true, "code_dir": "p12-observability", "target_chars": 3200
+    },
+    {
+      "id": "p13", "slug": "evaluation", "title": "评测与回归：让改动有依据",
+      "goal": "建立自建 Agent 的评测闭环：任务集设计、判定器、确定性断言、基线对比与 CI 集成。",
+      "must_cover": [
+        "自建任务集的最小规模：覆盖矩阵、难度分层、黄金答案与可接受答案",
+        "判定器的三种类型：确定性断言、结构化校验、LLM 判定，各自的偏差",
+        "确定性断言优先：能用正则与状态断言的，绝不用 LLM 判定",
+        "基线与对比：改动前后怎么比，什么幅度算有意义",
+        "接入 CI：抽样回归、阈值门禁、失败样本自动归档"
+      ],
+      "projects": ["promptfoo", "DeepEval", "Ragas", "pytest", "OpenAI Evals"],
+      "code": true, "code_dir": "p13-evaluation", "target_chars": 3400
+    },
+    {
+      "id": "p14", "slug": "production", "title": "上线：容器化、成本控制与值班手册",
+      "goal": "把自建 Agent 推到生产：容器镜像、配置与密钥管理、并发与限流、成本护栏，以及一份值班手册。",
+      "must_cover": [
+        "容器化：镜像分层、只读根、非 root 用户、最小出网",
+        "配置与密钥：环境变量 vs 配置中心，轮换与审计",
+        "并发与限流：模型侧限流、工具侧限流、队列与背压",
+        "成本护栏：预算告警、降级模型、自动熔断",
+        "值班手册：告警阈值、常见故障处置动作、升级路径"
+      ],
+      "projects": ["Docker", "E2B", "gVisor", "OpenTelemetry", "Prometheus"],
+      "code": true, "code_dir": "p14-production", "target_chars": 3200
+    }
+  ]
+}

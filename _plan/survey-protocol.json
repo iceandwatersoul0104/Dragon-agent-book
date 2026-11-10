@@ -1,0 +1,496 @@
+{
+  "id": "survey-protocol",
+  "planId": "plan:5406",
+  "label": "测绘 B · 协议与工程工具",
+  "phase": "survey",
+  "kind": "agent",
+  "dependsOn": [],
+  "requestHash": "785be5e7c3a325aa81956cf556319fe2860068f7a647179c2c5ac4a428066e53",
+  "status": "succeeded",
+  "attempt": 1,
+  "createdAt": 1794047642726,
+  "startedAt": 1794047642728,
+  "endedAt": 1794047832490,
+  "prompt": "你正在为一部《开源 Agent 架构技术全书》做全景测绘，负责下面这一片。\n\n【测绘范围】\n协议层与端到端 Agent 工具。重点覆盖：MCP（规范版本、主要 SDK、主流 server 实现）、A2A Protocol（治理方、核心对象）、AG-UI、ACP（Agent Client Protocol）、ANP、OpenAI Agents SDK 的 handoff 机制；以及浏览器自动化与计算机使用类项目（browser-use、Stagehand、Skyvern、Playwright、UI-TARS、OmniParser、AgentQL）、代码智能体与 CLI 智能体（Claude Code、OpenCode、Cline、Roo Code、Aider、Goose、OpenHands、SWE-agent、Open Interpreter、Plandex、OpenAI Codex CLI、Qwen Code）。每个项目记录真实仓库 URL、许可证、语言、核心机制一句话。\n\n【方法】\n1. 必须联网核实。使用 web_search / web_fetch 打开每个项目的仓库首页或官方文档，确认它真实存在、仓库 URL 正确、许可证与主要语言没记错。\n2. 宁可少写也不要写错。无法确认的项目放进 gaps 数组，不要放进 projects。\n3. one_liner 用一句中文讲清它最核心的机制或定位，不要写营销语。pattern 填它代表的架构模式标签（例如 状态图编排 / 对话式多Agent / SOP流水线 / 分层记忆 / 事件溯源 等）。\n4. patterns 数组总结这一片里出现的架构模式名称列表。\n5. 项目数量控制在 12 到 20 个，每个项目只写最核心的那个，不要为了凑数收录边缘项目。\n6. 输出必须完整但紧凑：one_liner 不超过 40 字，notes 不超过 40 字，没有特别说明就写空字符串。\n7. 你的输出会进入后续章节写作的参考清单，超长会挤占上下文，所以务必精简。\n\n【输出】\n你的最后一条消息必须是一个完整的 JSON 对象，严格符合给定 schema，projects 里带上 url。不要附加任何额外文字。",
+  "input": null,
+  "output": {
+    "projects": [
+      {
+        "name": "MCP 规范与 Schema",
+        "url": "https://github.com/modelcontextprotocol/modelcontextprotocol",
+        "category": "协议规范",
+        "one_liner": "以 TypeScript 定义 schema 再生成 JSON Schema 的 MCP 规范真源",
+        "pattern": "Schema 优先的协议规范",
+        "language": "TypeScript",
+        "license": "MIT（正过渡至 Apache-2.0）",
+        "notes": "schema 目录含已发布版与 draft"
+      },
+      {
+        "name": "MCP Python SDK",
+        "url": "https://github.com/modelcontextprotocol/python-sdk",
+        "category": "协议 SDK",
+        "one_liner": "官方 Python SDK，同时提供 client 与 server 两种角色",
+        "pattern": "双端 SDK（client/server）",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "MCP TypeScript SDK",
+        "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+        "category": "协议 SDK",
+        "one_liner": "官方 TS SDK，main 为 v2，对应 2026-07-28 规范",
+        "pattern": "双端 SDK（client/server）",
+        "language": "TypeScript",
+        "license": "存量 MIT，新贡献 Apache-2.0",
+        "notes": "v1.x 分支仍在维护，v2 拆为 server/client 包"
+      },
+      {
+        "name": "MCP Reference Servers",
+        "url": "https://github.com/modelcontextprotocol/servers",
+        "category": "协议 server 实现",
+        "one_liner": "官方参考 server 集合，覆盖文件系统、GitHub、Memory 等",
+        "pattern": "参考实现 / 工具接入模板",
+        "language": "TypeScript / Python",
+        "license": "MIT",
+        "notes": "同时维护官方集成与社区 server 清单"
+      },
+      {
+        "name": "A2A Protocol",
+        "url": "https://github.com/a2aproject/A2A",
+        "category": "协议规范",
+        "one_liner": "Linux Foundation 治理的 Agent 间通信协议，含 Agent Card 与 Task",
+        "pattern": "Agent 间任务委派协议",
+        "language": "Python / JSON Schema",
+        "license": "Apache-2.0",
+        "notes": "Google 捐赠给 LF，SDK 按语言分独立仓"
+      },
+      {
+        "name": "AG-UI",
+        "url": "https://github.com/ag-ui-protocol/ag-ui",
+        "category": "协议规范",
+        "one_liner": "事件驱动的 Agent-前端协议，约 16 类标准事件",
+        "pattern": "事件流协议 / 前后端状态同步",
+        "language": "TypeScript",
+        "license": "MIT",
+        "notes": "源自 CopilotKit 生态，支持 SSE、WebSocket 等传输"
+      },
+      {
+        "name": "Agent Client Protocol (ACP)",
+        "url": "https://github.com/agentclientprotocol/agent-client-protocol",
+        "category": "协议规范",
+        "one_liner": "Zed 发起，定义编辑器与编码智能体间的 JSON-RPC 交互",
+        "pattern": "客户端-智能体协议",
+        "language": "Rust / JSON Schema",
+        "license": "Apache-2.0",
+        "notes": "稳定线协议 v1，v2 为草案；官方 SDK 含 Rust/TS/Python"
+      },
+      {
+        "name": "ANP (Agent Network Protocol)",
+        "url": "https://github.com/agent-network-protocol/AgentNetworkProtocol",
+        "category": "协议规范",
+        "one_liner": "用 DID-WBA 标识与 OpenRPC 描述做 Agent 发现与调用",
+        "pattern": "去中心化 Agent 网络发现",
+        "language": "Markdown 规范 / Python SDK",
+        "license": "Apache-2.0",
+        "notes": "社区驱动，规范与 SDK 同仓；成熟度低于 A2A"
+      },
+      {
+        "name": "OpenAI Agents SDK",
+        "url": "https://github.com/openai/openai-agents-python",
+        "category": "Agent SDK",
+        "one_liner": "以 handoff 转交专精 Agent，内置 guardrail 与 tracing",
+        "pattern": "对话式多 Agent / Handoff 编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "Python 与 JS 双版本，另有 agents-as-tools 模式"
+      },
+      {
+        "name": "Playwright",
+        "url": "https://github.com/microsoft/playwright",
+        "category": "浏览器自动化",
+        "one_liner": "跨 Chromium/Firefox/WebKit 的统一 API 与自动等待机制",
+        "pattern": "确定性浏览器驱动",
+        "language": "TypeScript",
+        "license": "Apache-2.0",
+        "notes": "浏览器 agent 的底层执行基座，也提供 Playwright MCP"
+      },
+      {
+        "name": "browser-use",
+        "url": "https://github.com/browser-use/browser-use",
+        "category": "浏览器智能体",
+        "one_liner": "用无障碍树给 LLM 描述页面元素，自主点击输入完成任务",
+        "pattern": "ReAct 观察-决策-动作循环",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "Playwright 驱动，每步一次模型调用，可配本地模型"
+      },
+      {
+        "name": "Stagehand",
+        "url": "https://github.com/browserbase/stagehand",
+        "category": "浏览器智能体",
+        "one_liner": "把 act/observe/extract 与确定性 Playwright API 混搭",
+        "pattern": "混合式（确定性 + AI）浏览器编排",
+        "language": "TypeScript / Python / Go",
+        "license": "MIT",
+        "notes": "支持自愈选择器与动作缓存，三语言一套 SDK"
+      },
+      {
+        "name": "Skyvern",
+        "url": "https://github.com/Skyvern-AI/skyvern",
+        "category": "浏览器智能体",
+        "one_liner": "视觉模型直接看渲染页面，用多智能体群完成表单类流程",
+        "pattern": "视觉驱动多智能体编排",
+        "language": "Python",
+        "license": "AGPL-3.0",
+        "notes": "AGPL 传染性，闭源商业嵌入需谨慎"
+      },
+      {
+        "name": "UI-TARS Desktop",
+        "url": "https://github.com/bytedance/UI-TARS-desktop",
+        "category": "计算机使用",
+        "one_liner": "基于 UI-TARS 视觉模型的本地 GUI 智能体，可控桌面与浏览器",
+        "pattern": "纯视觉 GUI 操作 / 计算机使用",
+        "language": "TypeScript",
+        "license": "Apache-2.0",
+        "notes": "字节开源，含 Agent TARS CLI 与 MCP 内核"
+      },
+      {
+        "name": "OmniParser",
+        "url": "https://github.com/microsoft/OmniParser",
+        "category": "计算机使用",
+        "one_liner": "把屏幕截图解析成结构化可交互元素，支撑纯视觉 GUI 智能体",
+        "pattern": "屏幕解析 / 视觉接地",
+        "language": "Python / Jupyter",
+        "license": "CC-BY-4.0",
+        "notes": "代码 CC-BY-4.0，模型权重许可另计（MIT/AGPL 混用）"
+      },
+      {
+        "name": "Claude Code",
+        "url": "https://github.com/anthropics/claude-code",
+        "category": "代码智能体",
+        "one_liner": "终端里的编码智能体，读代码改代码跑命令并管 git",
+        "pattern": "终端自主编码循环 + 人工审批",
+        "language": "TypeScript",
+        "license": "专有（Anthropic 商业条款）",
+        "notes": "仓库公开但非开源，应用源码不在此仓"
+      },
+      {
+        "name": "OpenCode",
+        "url": "https://github.com/anomalyco/opencode",
+        "category": "CLI 智能体",
+        "one_liner": "Go 写的终端编码智能体，模型无关且客户端-服务端分离",
+        "pattern": "TUI 客户端-服务端架构",
+        "language": "Go / TypeScript",
+        "license": "MIT",
+        "notes": "支持 Plan/Build 模式与本地模型"
+      },
+      {
+        "name": "Cline",
+        "url": "https://github.com/cline/cline",
+        "category": "代码智能体",
+        "one_liner": "IDE 侧边栏智能体，每步 git checkpoint 可回滚",
+        "pattern": "Plan/Act 双模式 + 检查点回滚",
+        "language": "TypeScript",
+        "license": "Apache-2.0",
+        "notes": "同时提供 CLI、桌面端、JetBrains 插件与 SDK"
+      },
+      {
+        "name": "Aider",
+        "url": "https://github.com/Aider-AI/aider",
+        "category": "CLI 智能体",
+        "one_liner": "生成仓库地图并把每次修改自动提交成 git commit",
+        "pattern": "仓库地图 + 细粒度提交",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "老牌终端结对编程工具，模型无关"
+      },
+      {
+        "name": "OpenHands",
+        "url": "https://github.com/All-Hands-AI/OpenHands",
+        "category": "代码智能体平台",
+        "one_liner": "Docker 沙箱里的通用开发智能体平台，可脚本化自主执行",
+        "pattern": "沙箱运行时 + 自主任务执行",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "支持 GUI/Web/CLI 三种运行模式与 headless"
+      }
+    ],
+    "patterns": [
+      "Schema 优先的协议规范",
+      "双端 SDK（client/server）",
+      "Agent 间任务委派协议",
+      "事件流协议 / 前后端状态同步",
+      "客户端-智能体协议",
+      "去中心化 Agent 网络发现",
+      "对话式多 Agent / Handoff 编排",
+      "确定性浏览器驱动",
+      "ReAct 观察-决策-动作循环",
+      "混合式（确定性 + AI）浏览器编排",
+      "视觉驱动多智能体编排",
+      "纯视觉 GUI 操作 / 计算机使用",
+      "屏幕解析 / 视觉接地",
+      "终端自主编码循环 + 人工审批",
+      "TUI 客户端-服务端架构",
+      "Plan/Act 双模式 + 检查点回滚",
+      "仓库地图 + 细粒度提交",
+      "沙箱运行时 + 自主任务执行",
+      "参考实现 / 工具接入模板"
+    ],
+    "gaps": [
+      "AgentQL（tinyfish-io/agentql）：仅 SDK 与 MCP server 开源 MIT，查询引擎与 API 闭源且需 key，不宜当开源项目收录",
+      "Goose(block/goose)、SWE-agent(SWE-agent/SWE-agent)、Codex CLI(openai/codex)、Qwen Code(QwenLM/qwen-code)：仓库与许可证已确认，但因本片 20 项上限未展开",
+      "Roo Code(RooVetGit/Roo-Code)、Open Interpreter、Plandex：仅确认部分信息，未逐一核实仓库与许可证，建议后续补录",
+      "MCP 规范版本随发布滚动（2025-11-25、2026-07-28 等），引用具体版本号需按写作时点复核",
+      "A2A / ACP / ANP 的规范版本与治理归属仍在演进（如 ACP v2 草案、ANP 1.2），落笔前应复核官方仓库"
+    ]
+  },
+  "error": null,
+  "errorDetails": null,
+  "maxSteps": 200,
+  "stepTimeoutMs": 1800000,
+  "runTimeoutMs": 21600000,
+  "timeoutMs": 1800000,
+  "usage": {
+    "inputTokens": 195201,
+    "outputTokens": 15289,
+    "cacheReadTokens": 546048,
+    "totalTokens": 210490
+  },
+  "usageHistory": [],
+  "sessionId": "mvs_ebfbaba60c4642478afa87a747d63824",
+  "turnId": "turn_mw69nbv4_camb5d",
+  "rawOutput": {
+    "projects": [
+      {
+        "name": "MCP 规范与 Schema",
+        "url": "https://github.com/modelcontextprotocol/modelcontextprotocol",
+        "category": "协议规范",
+        "one_liner": "以 TypeScript 定义 schema 再生成 JSON Schema 的 MCP 规范真源",
+        "pattern": "Schema 优先的协议规范",
+        "language": "TypeScript",
+        "license": "MIT（正过渡至 Apache-2.0）",
+        "notes": "schema 目录含已发布版与 draft"
+      },
+      {
+        "name": "MCP Python SDK",
+        "url": "https://github.com/modelcontextprotocol/python-sdk",
+        "category": "协议 SDK",
+        "one_liner": "官方 Python SDK，同时提供 client 与 server 两种角色",
+        "pattern": "双端 SDK（client/server）",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "MCP TypeScript SDK",
+        "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+        "category": "协议 SDK",
+        "one_liner": "官方 TS SDK，main 为 v2，对应 2026-07-28 规范",
+        "pattern": "双端 SDK（client/server）",
+        "language": "TypeScript",
+        "license": "存量 MIT，新贡献 Apache-2.0",
+        "notes": "v1.x 分支仍在维护，v2 拆为 server/client 包"
+      },
+      {
+        "name": "MCP Reference Servers",
+        "url": "https://github.com/modelcontextprotocol/servers",
+        "category": "协议 server 实现",
+        "one_liner": "官方参考 server 集合，覆盖文件系统、GitHub、Memory 等",
+        "pattern": "参考实现 / 工具接入模板",
+        "language": "TypeScript / Python",
+        "license": "MIT",
+        "notes": "同时维护官方集成与社区 server 清单"
+      },
+      {
+        "name": "A2A Protocol",
+        "url": "https://github.com/a2aproject/A2A",
+        "category": "协议规范",
+        "one_liner": "Linux Foundation 治理的 Agent 间通信协议，含 Agent Card 与 Task",
+        "pattern": "Agent 间任务委派协议",
+        "language": "Python / JSON Schema",
+        "license": "Apache-2.0",
+        "notes": "Google 捐赠给 LF，SDK 按语言分独立仓"
+      },
+      {
+        "name": "AG-UI",
+        "url": "https://github.com/ag-ui-protocol/ag-ui",
+        "category": "协议规范",
+        "one_liner": "事件驱动的 Agent-前端协议，约 16 类标准事件",
+        "pattern": "事件流协议 / 前后端状态同步",
+        "language": "TypeScript",
+        "license": "MIT",
+        "notes": "源自 CopilotKit 生态，支持 SSE、WebSocket 等传输"
+      },
+      {
+        "name": "Agent Client Protocol (ACP)",
+        "url": "https://github.com/agentclientprotocol/agent-client-protocol",
+        "category": "协议规范",
+        "one_liner": "Zed 发起，定义编辑器与编码智能体间的 JSON-RPC 交互",
+        "pattern": "客户端-智能体协议",
+        "language": "Rust / JSON Schema",
+        "license": "Apache-2.0",
+        "notes": "稳定线协议 v1，v2 为草案；官方 SDK 含 Rust/TS/Python"
+      },
+      {
+        "name": "ANP (Agent Network Protocol)",
+        "url": "https://github.com/agent-network-protocol/AgentNetworkProtocol",
+        "category": "协议规范",
+        "one_liner": "用 DID-WBA 标识与 OpenRPC 描述做 Agent 发现与调用",
+        "pattern": "去中心化 Agent 网络发现",
+        "language": "Markdown 规范 / Python SDK",
+        "license": "Apache-2.0",
+        "notes": "社区驱动，规范与 SDK 同仓；成熟度低于 A2A"
+      },
+      {
+        "name": "OpenAI Agents SDK",
+        "url": "https://github.com/openai/openai-agents-python",
+        "category": "Agent SDK",
+        "one_liner": "以 handoff 转交专精 Agent，内置 guardrail 与 tracing",
+        "pattern": "对话式多 Agent / Handoff 编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "Python 与 JS 双版本，另有 agents-as-tools 模式"
+      },
+      {
+        "name": "Playwright",
+        "url": "https://github.com/microsoft/playwright",
+        "category": "浏览器自动化",
+        "one_liner": "跨 Chromium/Firefox/WebKit 的统一 API 与自动等待机制",
+        "pattern": "确定性浏览器驱动",
+        "language": "TypeScript",
+        "license": "Apache-2.0",
+        "notes": "浏览器 agent 的底层执行基座，也提供 Playwright MCP"
+      },
+      {
+        "name": "browser-use",
+        "url": "https://github.com/browser-use/browser-use",
+        "category": "浏览器智能体",
+        "one_liner": "用无障碍树给 LLM 描述页面元素，自主点击输入完成任务",
+        "pattern": "ReAct 观察-决策-动作循环",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "Playwright 驱动，每步一次模型调用，可配本地模型"
+      },
+      {
+        "name": "Stagehand",
+        "url": "https://github.com/browserbase/stagehand",
+        "category": "浏览器智能体",
+        "one_liner": "把 act/observe/extract 与确定性 Playwright API 混搭",
+        "pattern": "混合式（确定性 + AI）浏览器编排",
+        "language": "TypeScript / Python / Go",
+        "license": "MIT",
+        "notes": "支持自愈选择器与动作缓存，三语言一套 SDK"
+      },
+      {
+        "name": "Skyvern",
+        "url": "https://github.com/Skyvern-AI/skyvern",
+        "category": "浏览器智能体",
+        "one_liner": "视觉模型直接看渲染页面，用多智能体群完成表单类流程",
+        "pattern": "视觉驱动多智能体编排",
+        "language": "Python",
+        "license": "AGPL-3.0",
+        "notes": "AGPL 传染性，闭源商业嵌入需谨慎"
+      },
+      {
+        "name": "UI-TARS Desktop",
+        "url": "https://github.com/bytedance/UI-TARS-desktop",
+        "category": "计算机使用",
+        "one_liner": "基于 UI-TARS 视觉模型的本地 GUI 智能体，可控桌面与浏览器",
+        "pattern": "纯视觉 GUI 操作 / 计算机使用",
+        "language": "TypeScript",
+        "license": "Apache-2.0",
+        "notes": "字节开源，含 Agent TARS CLI 与 MCP 内核"
+      },
+      {
+        "name": "OmniParser",
+        "url": "https://github.com/microsoft/OmniParser",
+        "category": "计算机使用",
+        "one_liner": "把屏幕截图解析成结构化可交互元素，支撑纯视觉 GUI 智能体",
+        "pattern": "屏幕解析 / 视觉接地",
+        "language": "Python / Jupyter",
+        "license": "CC-BY-4.0",
+        "notes": "代码 CC-BY-4.0，模型权重许可另计（MIT/AGPL 混用）"
+      },
+      {
+        "name": "Claude Code",
+        "url": "https://github.com/anthropics/claude-code",
+        "category": "代码智能体",
+        "one_liner": "终端里的编码智能体，读代码改代码跑命令并管 git",
+        "pattern": "终端自主编码循环 + 人工审批",
+        "language": "TypeScript",
+        "license": "专有（Anthropic 商业条款）",
+        "notes": "仓库公开但非开源，应用源码不在此仓"
+      },
+      {
+        "name": "OpenCode",
+        "url": "https://github.com/anomalyco/opencode",
+        "category": "CLI 智能体",
+        "one_liner": "Go 写的终端编码智能体，模型无关且客户端-服务端分离",
+        "pattern": "TUI 客户端-服务端架构",
+        "language": "Go / TypeScript",
+        "license": "MIT",
+        "notes": "支持 Plan/Build 模式与本地模型"
+      },
+      {
+        "name": "Cline",
+        "url": "https://github.com/cline/cline",
+        "category": "代码智能体",
+        "one_liner": "IDE 侧边栏智能体，每步 git checkpoint 可回滚",
+        "pattern": "Plan/Act 双模式 + 检查点回滚",
+        "language": "TypeScript",
+        "license": "Apache-2.0",
+        "notes": "同时提供 CLI、桌面端、JetBrains 插件与 SDK"
+      },
+      {
+        "name": "Aider",
+        "url": "https://github.com/Aider-AI/aider",
+        "category": "CLI 智能体",
+        "one_liner": "生成仓库地图并把每次修改自动提交成 git commit",
+        "pattern": "仓库地图 + 细粒度提交",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "老牌终端结对编程工具，模型无关"
+      },
+      {
+        "name": "OpenHands",
+        "url": "https://github.com/All-Hands-AI/OpenHands",
+        "category": "代码智能体平台",
+        "one_liner": "Docker 沙箱里的通用开发智能体平台，可脚本化自主执行",
+        "pattern": "沙箱运行时 + 自主任务执行",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "支持 GUI/Web/CLI 三种运行模式与 headless"
+      }
+    ],
+    "patterns": [
+      "Schema 优先的协议规范",
+      "双端 SDK（client/server）",
+      "Agent 间任务委派协议",
+      "事件流协议 / 前后端状态同步",
+      "客户端-智能体协议",
+      "去中心化 Agent 网络发现",
+      "对话式多 Agent / Handoff 编排",
+      "确定性浏览器驱动",
+      "ReAct 观察-决策-动作循环",
+      "混合式（确定性 + AI）浏览器编排",
+      "视觉驱动多智能体编排",
+      "纯视觉 GUI 操作 / 计算机使用",
+      "屏幕解析 / 视觉接地",
+      "终端自主编码循环 + 人工审批",
+      "TUI 客户端-服务端架构",
+      "Plan/Act 双模式 + 检查点回滚",
+      "仓库地图 + 细粒度提交",
+      "沙箱运行时 + 自主任务执行",
+      "参考实现 / 工具接入模板"
+    ],
+    "gaps": [
+      "AgentQL（tinyfish-io/agentql）：仅 SDK 与 MCP server 开源 MIT，查询引擎与 API 闭源且需 key，不宜当开源项目收录",
+      "Goose(block/goose)、SWE-agent(SWE-agent/SWE-agent)、Codex CLI(openai/codex)、Qwen Code(QwenLM/qwen-code)：仓库与许可证已确认，但因本片 20 项上限未展开",
+      "Roo Code(RooVetGit/Roo-Code)、Open Interpreter、Plandex：仅确认部分信息，未逐一核实仓库与许可证，建议后续补录",
+      "MCP 规范版本随发布滚动（2025-11-25、2026-07-28 等），引用具体版本号需按写作时点复核",
+      "A2A / ACP / ANP 的规范版本与治理归属仍在演进（如 ACP v2 草案、ANP 1.2），落笔前应复核官方仓库"
+    ]
+  },
+  "outputFormat": "native"
+}

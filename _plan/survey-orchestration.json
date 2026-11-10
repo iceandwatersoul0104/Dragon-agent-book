@@ -1,0 +1,494 @@
+{
+  "id": "survey-orchestration",
+  "planId": "plan:5406",
+  "label": "测绘 A · 编排框架",
+  "phase": "survey",
+  "kind": "agent",
+  "dependsOn": [],
+  "requestHash": "08f141b607bd530f3a39f2235c519e2819f8346954a0f43a017f6f996f931579",
+  "status": "succeeded",
+  "attempt": 1,
+  "createdAt": 1794047642722,
+  "startedAt": 1794047642723,
+  "endedAt": 1794048351234,
+  "prompt": "你正在为一部《开源 Agent 架构技术全书》做全景测绘，负责下面这一片。\n\n【测绘范围】\nAgent 编排框架与库。重点覆盖：LangChain / LangGraph、LlamaIndex、Haystack、AutoGen、Microsoft Agent Framework、CrewAI、PydanticAI、Agno、smolagents、Semantic Kernel、OpenAI Agents SDK、OpenAI Swarm、DSPy、Atomic Agents、Dify、FastGPT、RAGFlow、MaxKB、Coze 开源部分、Qwen-Agent、AgentScope 等中文与英文项目。每个项目记录：真实仓库 URL、所属组织、许可证、主要语言、核心抽象（一句话）、所代表的架构模式。\n\n【方法】\n1. 必须联网核实。使用 web_search / web_fetch 打开每个项目的仓库首页或官方文档，确认它真实存在、仓库 URL 正确、许可证与主要语言没记错。\n2. 宁可少写也不要写错。无法确认的项目放进 gaps 数组，不要放进 projects。\n3. one_liner 用一句中文讲清它最核心的机制或定位，不要写营销语。pattern 填它代表的架构模式标签（例如 状态图编排 / 对话式多Agent / SOP流水线 / 分层记忆 / 事件溯源 等）。\n4. patterns 数组总结这一片里出现的架构模式名称列表。\n5. 项目数量控制在 12 到 20 个，每个项目只写最核心的那个，不要为了凑数收录边缘项目。\n6. 输出必须完整但紧凑：one_liner 不超过 40 字，notes 不超过 40 字，没有特别说明就写空字符串。\n7. 你的输出会进入后续章节写作的参考清单，超长会挤占上下文，所以务必精简。\n\n【输出】\n你的最后一条消息必须是一个完整的 JSON 对象，严格符合给定 schema，projects 里带上 url。不要附加任何额外文字。",
+  "input": null,
+  "output": {
+    "projects": [
+      {
+        "name": "LangChain",
+        "url": "https://github.com/langchain-ai/langchain",
+        "category": "通用 Agent 框架",
+        "one_liner": "以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+        "pattern": "组合式链式编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "生态最大，API 演进快"
+      },
+      {
+        "name": "LangGraph",
+        "url": "https://github.com/langchain-ai/langgraph",
+        "category": "图编排框架",
+        "one_liner": "用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+        "pattern": "状态图编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "README 自述为 stateful agent 编排"
+      },
+      {
+        "name": "LlamaIndex",
+        "url": "https://github.com/run-llama/llama_index",
+        "category": "数据与 RAG 框架",
+        "one_liner": "以数据连接器与索引为中心，为 Agent 提供检索与工作流引擎",
+        "pattern": "数据优先的 Agent 编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "Haystack",
+        "url": "https://github.com/deepset-ai/haystack",
+        "category": "管道编排框架",
+        "one_liner": "把检索、生成与 Agent 拆成组件，用显式管道控制数据流向",
+        "pattern": "组件化管道流水线",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "强调显式控制检索与路由"
+      },
+      {
+        "name": "AutoGen",
+        "url": "https://github.com/microsoft/autogen",
+        "category": "多 Agent 框架",
+        "one_liner": "以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+        "pattern": "对话式多Agent",
+        "language": "Python",
+        "license": "MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0",
+        "notes": "现由 Agent Framework 承接演进"
+      },
+      {
+        "name": "Microsoft Agent Framework",
+        "url": "https://github.com/microsoft/agent-framework",
+        "category": "统一 Agent 框架",
+        "one_liner": "融合 AutoGen 与 Semantic Kernel，统一 Agent、工作流与部署",
+        "pattern": "统一Agent框架",
+        "language": "Python（.NET 并行实现）",
+        "license": "MIT",
+        "notes": "仓库描述含 Python 与 .NET 支持"
+      },
+      {
+        "name": "CrewAI",
+        "url": "https://github.com/crewAIInc/crewAI",
+        "category": "团队编排框架",
+        "one_liner": "用角色、任务与流程模板组织 Agent 团队协作达成目标",
+        "pattern": "角色扮演协作 + SOP 流水线",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "Crews 自治协作与 Flows 确定性流程并行"
+      },
+      {
+        "name": "PydanticAI",
+        "url": "https://github.com/pydantic/pydantic-ai",
+        "category": "类型安全 Agent SDK",
+        "one_liner": "以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+        "pattern": "类型安全依赖注入",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "含 Pydantic Graph 提供类型化控制流"
+      },
+      {
+        "name": "Agno",
+        "url": "https://github.com/agno-agi/agno",
+        "category": "Agent 运行时",
+        "one_liner": "以 Agent、Team、Workflow 组织多 Agent，AgentOS 承载持久运行",
+        "pattern": "团队式多Agent运行时",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "AgentOS 支持鉴权与 resume/replay"
+      },
+      {
+        "name": "smolagents",
+        "url": "https://github.com/huggingface/smolagents",
+        "category": "轻量 Agent 库",
+        "one_liner": "极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+        "pattern": "代码即动作",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "自述为 barebones、think in code"
+      },
+      {
+        "name": "Semantic Kernel",
+        "url": "https://github.com/microsoft/semantic-kernel",
+        "category": "企业 SDK",
+        "one_liner": "以插件、技能、记忆与计划为企业应用接入 LLM",
+        "pattern": "插件化企业编排",
+        "language": "C#",
+        "license": "MIT",
+        "notes": "Python、Java 版本并行"
+      },
+      {
+        "name": "OpenAI Agents SDK",
+        "url": "https://github.com/openai/openai-agents-python",
+        "category": "轻量多 Agent 框架",
+        "one_liner": "用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+        "pattern": "交接委派路由 + 内置追踪",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "README 明列 handoffs、guardrails、tracing"
+      },
+      {
+        "name": "DSPy",
+        "url": "https://github.com/stanfordnlp/dspy",
+        "category": "LM 程序框架",
+        "one_liner": "用声明式签名编写 LM 程序，再自动优化提示与示例",
+        "pattern": "声明式Prompt编程与编译优化",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "主张 programming 而非 prompting"
+      },
+      {
+        "name": "Dify",
+        "url": "https://github.com/langgenius/dify",
+        "category": "低代码平台",
+        "one_liner": "拖拽编排 Agent 工作流与 RAG 管道，可自托管的 LLM 应用平台",
+        "pattern": "可视化低代码工作流",
+        "language": "Python",
+        "license": "Apache-2.0 加附加条件（Dify Open Source License）",
+        "notes": "多租户与去LOGO需商业授权"
+      },
+      {
+        "name": "FastGPT",
+        "url": "https://github.com/labring/FastGPT",
+        "category": "知识库与工作流平台",
+        "one_liner": "知识库加可视化工作流，面向企业问答与 AI 应用搭建",
+        "pattern": "可视化工作流 + 知识库RAG",
+        "language": "TypeScript",
+        "license": "Apache-2.0 加附加条件（FastGPT Open Source License）",
+        "notes": "多租户SaaS需商业授权"
+      },
+      {
+        "name": "RAGFlow",
+        "url": "https://github.com/infiniflow/ragflow",
+        "category": "Agentic RAG 引擎",
+        "one_liner": "以深度文档解析构建上下文，再由 Agent 基于证据作答",
+        "pattern": "文档理解驱动的Agentic RAG",
+        "language": "Go（辅以 Python 解析推理）",
+        "license": "Apache-2.0",
+        "notes": "GitHub 语言占比 Go 约 71.6%"
+      },
+      {
+        "name": "MaxKB",
+        "url": "https://github.com/1Panel-dev/MaxKB",
+        "category": "企业知识库平台",
+        "one_liner": "开箱即用的企业级知识库问答与 Agent 平台",
+        "pattern": "企业知识库问答Agent",
+        "language": "Python",
+        "license": "GPL-3.0",
+        "notes": "copyleft，衍生分发需注意"
+      },
+      {
+        "name": "Coze Studio",
+        "url": "https://github.com/coze-dev/coze-studio",
+        "category": "可视化 Agent 平台",
+        "one_liner": "字节开源的 Agent 开发平台，全流程可视化搭建与调试",
+        "pattern": "可视化低代码Agent平台",
+        "language": "TypeScript",
+        "license": "Apache-2.0（GitHub 识别；根目录未见标准 LICENSE 文件）",
+        "notes": "Coze 的开源实现"
+      },
+      {
+        "name": "Qwen-Agent",
+        "url": "https://github.com/QwenLM/Qwen-Agent",
+        "category": "模型生态 Agent 框架",
+        "one_liner": "基于 Qwen 打通函数调用、MCP、代码解释与 RAG",
+        "pattern": "工具调用 + RAG 一体化",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "面向 Qwen>=3.0 的应用与框架"
+      },
+      {
+        "name": "AgentScope",
+        "url": "https://github.com/agentscope-ai/agentscope",
+        "category": "多 Agent 框架与运行时",
+        "one_liner": "面向多 Agent 协作的框架，配 Studio 可视化调试与追踪",
+        "pattern": "可观测多Agent运行时",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "docs 含 Studio、Tracing、Evaluation"
+      }
+    ],
+    "patterns": [
+      "组合式链式编排",
+      "状态图编排",
+      "组件化管道流水线",
+      "数据优先的Agent编排",
+      "对话式多Agent",
+      "交接委派路由",
+      "角色扮演协作",
+      "SOP流水线",
+      "类型安全依赖注入",
+      "团队式多Agent运行时",
+      "代码即动作",
+      "插件化企业编排",
+      "声明式Prompt编程与编译优化",
+      "可视化低代码工作流",
+      "知识库RAG编排",
+      "文档理解驱动的Agentic RAG",
+      "企业知识库问答Agent",
+      "可观测多Agent运行时",
+      "内置追踪与评估",
+      "统一Agent框架"
+    ],
+    "gaps": [
+      "OpenAI Swarm 已核实存在（MIT/Python，Agents SDK 的教育性前身，github.com/openai/swarm），因项目数量上限未单列",
+      "Atomic Agents 已核实存在且仓库已迁移至 github.com/Eigenwise/atomic-agents（原 BrainBlend-AI 路径 301 重定向，MIT/Python），因项目数量上限未单列",
+      "Coze Studio 根目录未找到标准 LICENSE 文件，其 Apache-2.0 依据 GitHub 许可证识别结果，非原文逐字核实"
+    ]
+  },
+  "error": null,
+  "errorDetails": null,
+  "maxSteps": 200,
+  "stepTimeoutMs": 1800000,
+  "runTimeoutMs": 21600000,
+  "timeoutMs": 1800000,
+  "usage": {
+    "inputTokens": 40124,
+    "outputTokens": 26933,
+    "cacheReadTokens": 963584,
+    "totalTokens": 67057
+  },
+  "usageHistory": [],
+  "sessionId": "mvs_2a103afea8394405814c25771555cab5",
+  "turnId": "turn_mw69nchd_ypsv17",
+  "rawOutput": {
+    "projects": [
+      {
+        "name": "LangChain",
+        "url": "https://github.com/langchain-ai/langchain",
+        "category": "通用 Agent 框架",
+        "one_liner": "以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+        "pattern": "组合式链式编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "生态最大，API 演进快"
+      },
+      {
+        "name": "LangGraph",
+        "url": "https://github.com/langchain-ai/langgraph",
+        "category": "图编排框架",
+        "one_liner": "用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+        "pattern": "状态图编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "README 自述为 stateful agent 编排"
+      },
+      {
+        "name": "LlamaIndex",
+        "url": "https://github.com/run-llama/llama_index",
+        "category": "数据与 RAG 框架",
+        "one_liner": "以数据连接器与索引为中心，为 Agent 提供检索与工作流引擎",
+        "pattern": "数据优先的 Agent 编排",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "Haystack",
+        "url": "https://github.com/deepset-ai/haystack",
+        "category": "管道编排框架",
+        "one_liner": "把检索、生成与 Agent 拆成组件，用显式管道控制数据流向",
+        "pattern": "组件化管道流水线",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "强调显式控制检索与路由"
+      },
+      {
+        "name": "AutoGen",
+        "url": "https://github.com/microsoft/autogen",
+        "category": "多 Agent 框架",
+        "one_liner": "以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+        "pattern": "对话式多Agent",
+        "language": "Python",
+        "license": "MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0",
+        "notes": "现由 Agent Framework 承接演进"
+      },
+      {
+        "name": "Microsoft Agent Framework",
+        "url": "https://github.com/microsoft/agent-framework",
+        "category": "统一 Agent 框架",
+        "one_liner": "融合 AutoGen 与 Semantic Kernel，统一 Agent、工作流与部署",
+        "pattern": "统一Agent框架",
+        "language": "Python（.NET 并行实现）",
+        "license": "MIT",
+        "notes": "仓库描述含 Python 与 .NET 支持"
+      },
+      {
+        "name": "CrewAI",
+        "url": "https://github.com/crewAIInc/crewAI",
+        "category": "团队编排框架",
+        "one_liner": "用角色、任务与流程模板组织 Agent 团队协作达成目标",
+        "pattern": "角色扮演协作 + SOP 流水线",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "Crews 自治协作与 Flows 确定性流程并行"
+      },
+      {
+        "name": "PydanticAI",
+        "url": "https://github.com/pydantic/pydantic-ai",
+        "category": "类型安全 Agent SDK",
+        "one_liner": "以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+        "pattern": "类型安全依赖注入",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "含 Pydantic Graph 提供类型化控制流"
+      },
+      {
+        "name": "Agno",
+        "url": "https://github.com/agno-agi/agno",
+        "category": "Agent 运行时",
+        "one_liner": "以 Agent、Team、Workflow 组织多 Agent，AgentOS 承载持久运行",
+        "pattern": "团队式多Agent运行时",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "AgentOS 支持鉴权与 resume/replay"
+      },
+      {
+        "name": "smolagents",
+        "url": "https://github.com/huggingface/smolagents",
+        "category": "轻量 Agent 库",
+        "one_liner": "极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+        "pattern": "代码即动作",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "自述为 barebones、think in code"
+      },
+      {
+        "name": "Semantic Kernel",
+        "url": "https://github.com/microsoft/semantic-kernel",
+        "category": "企业 SDK",
+        "one_liner": "以插件、技能、记忆与计划为企业应用接入 LLM",
+        "pattern": "插件化企业编排",
+        "language": "C#",
+        "license": "MIT",
+        "notes": "Python、Java 版本并行"
+      },
+      {
+        "name": "OpenAI Agents SDK",
+        "url": "https://github.com/openai/openai-agents-python",
+        "category": "轻量多 Agent 框架",
+        "one_liner": "用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+        "pattern": "交接委派路由 + 内置追踪",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "README 明列 handoffs、guardrails、tracing"
+      },
+      {
+        "name": "DSPy",
+        "url": "https://github.com/stanfordnlp/dspy",
+        "category": "LM 程序框架",
+        "one_liner": "用声明式签名编写 LM 程序，再自动优化提示与示例",
+        "pattern": "声明式Prompt编程与编译优化",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "主张 programming 而非 prompting"
+      },
+      {
+        "name": "Dify",
+        "url": "https://github.com/langgenius/dify",
+        "category": "低代码平台",
+        "one_liner": "拖拽编排 Agent 工作流与 RAG 管道，可自托管的 LLM 应用平台",
+        "pattern": "可视化低代码工作流",
+        "language": "Python",
+        "license": "Apache-2.0 加附加条件（Dify Open Source License）",
+        "notes": "多租户与去LOGO需商业授权"
+      },
+      {
+        "name": "FastGPT",
+        "url": "https://github.com/labring/FastGPT",
+        "category": "知识库与工作流平台",
+        "one_liner": "知识库加可视化工作流，面向企业问答与 AI 应用搭建",
+        "pattern": "可视化工作流 + 知识库RAG",
+        "language": "TypeScript",
+        "license": "Apache-2.0 加附加条件（FastGPT Open Source License）",
+        "notes": "多租户SaaS需商业授权"
+      },
+      {
+        "name": "RAGFlow",
+        "url": "https://github.com/infiniflow/ragflow",
+        "category": "Agentic RAG 引擎",
+        "one_liner": "以深度文档解析构建上下文，再由 Agent 基于证据作答",
+        "pattern": "文档理解驱动的Agentic RAG",
+        "language": "Go（辅以 Python 解析推理）",
+        "license": "Apache-2.0",
+        "notes": "GitHub 语言占比 Go 约 71.6%"
+      },
+      {
+        "name": "MaxKB",
+        "url": "https://github.com/1Panel-dev/MaxKB",
+        "category": "企业知识库平台",
+        "one_liner": "开箱即用的企业级知识库问答与 Agent 平台",
+        "pattern": "企业知识库问答Agent",
+        "language": "Python",
+        "license": "GPL-3.0",
+        "notes": "copyleft，衍生分发需注意"
+      },
+      {
+        "name": "Coze Studio",
+        "url": "https://github.com/coze-dev/coze-studio",
+        "category": "可视化 Agent 平台",
+        "one_liner": "字节开源的 Agent 开发平台，全流程可视化搭建与调试",
+        "pattern": "可视化低代码Agent平台",
+        "language": "TypeScript",
+        "license": "Apache-2.0（GitHub 识别；根目录未见标准 LICENSE 文件）",
+        "notes": "Coze 的开源实现"
+      },
+      {
+        "name": "Qwen-Agent",
+        "url": "https://github.com/QwenLM/Qwen-Agent",
+        "category": "模型生态 Agent 框架",
+        "one_liner": "基于 Qwen 打通函数调用、MCP、代码解释与 RAG",
+        "pattern": "工具调用 + RAG 一体化",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "面向 Qwen>=3.0 的应用与框架"
+      },
+      {
+        "name": "AgentScope",
+        "url": "https://github.com/agentscope-ai/agentscope",
+        "category": "多 Agent 框架与运行时",
+        "one_liner": "面向多 Agent 协作的框架，配 Studio 可视化调试与追踪",
+        "pattern": "可观测多Agent运行时",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "docs 含 Studio、Tracing、Evaluation"
+      }
+    ],
+    "patterns": [
+      "组合式链式编排",
+      "状态图编排",
+      "组件化管道流水线",
+      "数据优先的Agent编排",
+      "对话式多Agent",
+      "交接委派路由",
+      "角色扮演协作",
+      "SOP流水线",
+      "类型安全依赖注入",
+      "团队式多Agent运行时",
+      "代码即动作",
+      "插件化企业编排",
+      "声明式Prompt编程与编译优化",
+      "可视化低代码工作流",
+      "知识库RAG编排",
+      "文档理解驱动的Agentic RAG",
+      "企业知识库问答Agent",
+      "可观测多Agent运行时",
+      "内置追踪与评估",
+      "统一Agent框架"
+    ],
+    "gaps": [
+      "OpenAI Swarm 已核实存在（MIT/Python，Agents SDK 的教育性前身，github.com/openai/swarm），因项目数量上限未单列",
+      "Atomic Agents 已核实存在且仓库已迁移至 github.com/Eigenwise/atomic-agents（原 BrainBlend-AI 路径 301 重定向，MIT/Python），因项目数量上限未单列",
+      "Coze Studio 根目录未找到标准 LICENSE 文件，其 Apache-2.0 依据 GitHub 许可证识别结果，非原文逐字核实"
+    ]
+  },
+  "outputFormat": "native"
+}

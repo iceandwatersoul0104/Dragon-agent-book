@@ -1,0 +1,42 @@
+# 构建上下文里不要的东西。
+#
+# 排除它们有两个理由：一是小（构建上下文越小，传得越快），
+# 二是安全——.env 与密钥文件一旦进了镜像层，就等于公开了：
+# `docker history` 能看见，`docker save` 出来的镜像里也还在。
+
+.git
+.gitignore
+.venv
+venv
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.coverage
+htmlcov
+
+# 密钥与环境：绝不入镜像。
+.env
+.env.*
+*.pem
+*.key
+secrets/
+deploy/secrets/
+
+# 本地产物与文档：运行时不需要。
+tests/
+examples/
+specs/
+traces/
+*.md
+!README.md
+
+# 编辑器与系统垃圾。
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

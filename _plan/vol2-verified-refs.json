@@ -1,0 +1,158 @@
+{
+  "_meta": {
+    "purpose": "第二卷正文外部引用的已核实项目清单（许可证 + 来源）。",
+    "verified_at": "2026-11-08",
+    "method": [
+      "GitHub 仓库页 sidebar 的许可证类型标记（正则提取 'X license' 锚点）",
+      "仓库页 raw 路径 ?raw=true 取 LICENSE 原文关键行",
+      "PyPI JSON API 的 info.license_expression（structlog 用此路，仓库页连接被中断）"
+    ],
+    "note": "api.github.com 与 raw.githubusercontent.com 在本环境被阻断；github.com 网页与 pypi.org 可达。",
+    "spdx_mismatch_rule": "复合声明（如 'MIT OR Apache-2.0'）允许与 SPDX 集合部分匹配；单一声明必须精确命中。"
+  },
+  "repos": {
+    "github/spec-kit": {
+      "name": "GitHub Spec Kit",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "openai/evals": {
+      "name": "OpenAI Evals",
+      "license": "MIT",
+      "license_note": "LICENSE.md 第 1 行为 MIT License；第 23 行写明 'this license applies to all parts of this repository except for the datasets specified below'，数据集各自另有条款（ODC-Attribution / CC0 / CC BY-SA+GFDL）。",
+      "evidence": "LICENSE.md 原文"
+    },
+    "promptfoo/promptfoo": {
+      "name": "promptfoo",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "UKGovernmentBEIS/inspect_ai": {
+      "name": "Inspect AI",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "SWE-bench/SWE-bench": {
+      "name": "SWE-bench",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "stanfordnlp/dspy": {
+      "name": "DSPy",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "structlog/structlog": {
+      "name": "structlog",
+      "license": "MIT OR Apache-2.0",
+      "evidence": "PyPI JSON API info.license_expression = 'MIT OR Apache-2.0'；classifier 同时含 Apache Software License 与 MIT License"
+    },
+    "pydantic/pydantic-settings": {
+      "name": "Pydantic Settings",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "jd/tenacity": {
+      "name": "tenacity",
+      "license": "Apache-2.0",
+      "evidence": "LICENSE 原文第 2-3 行 'Apache License / Version 2.0, January 2004'"
+    },
+    "open-telemetry/opentelemetry-python": {
+      "name": "OpenTelemetry Python",
+      "license": "Apache-2.0",
+      "evidence": "仓库页 sidebar 标记 Apache-2.0 license"
+    },
+    "openai/openai-python": {
+      "name": "OpenAI Python SDK",
+      "license": "Apache-2.0",
+      "evidence": "仓库页 sidebar 标记 Apache-2.0 license"
+    },
+    "anthropics/anthropic-sdk-python": {
+      "name": "Anthropic Python SDK",
+      "license": "Apache-2.0",
+      "evidence": "仓库页 sidebar 标记 Apache-2.0 license"
+    },
+    "encode/httpx": {
+      "name": "httpx",
+      "license": "BSD-3-Clause",
+      "evidence": "仓库页 sidebar 标记 BSD-3-Clause license"
+    },
+    "BerriAI/litellm": {
+      "name": "LiteLLM",
+      "license": "MIT",
+      "license_note": "LICENSE 第 3 行写明 enterprise/ 目录内容由 enterprise/LICENSE 另行授权，其余部分为 MIT。",
+      "evidence": "LICENSE 原文"
+    },
+    "pydantic/pydantic": {
+      "name": "Pydantic",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "pallets/jinja": {
+      "name": "Jinja2",
+      "license": "BSD-3-Clause",
+      "evidence": "GitHub 仓库页 License 标记 BSD-3-Clause license（主仓库与多个 fork 页面一致）；仓库页在本环境多次连接失败，改用搜索通道取回的 GitHub 页面内容交叉确认"
+    },
+    "python-jsonschema/jsonschema": {
+      "name": "jsonschema",
+      "license": "MIT",
+      "evidence": "PyPI JSON API info.license_expression = 'MIT'"
+    },
+    "567-labs/instructor": {
+      "name": "instructor",
+      "license": "MIT",
+      "evidence": "PyPI JSON API info.license = 'MIT'"
+    },
+    "temporalio/temporal": {
+      "name": "Temporal",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "modelcontextprotocol/modelcontextprotocol": {
+      "name": "MCP 规范仓库",
+      "license": "MIT 与 Apache-2.0 混合（许可过渡中）",
+      "license_note": "仓库根目录 LICENSE 第 1 行写明 MCP 项目正在从 MIT License 转向 Apache License；已取得 relicensing 同意的贡献按 Apache-2.0 授权，未取得同意的仍适用原许可。仓库页许可证字段因此为 NOASSERTION。",
+      "evidence": "LICENSE 原文（github.com/modelcontextprotocol/modelcontextprotocol/raw/main/LICENSE）"
+    },
+    "modelcontextprotocol/python-sdk": {
+      "name": "MCP Python SDK",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "a2aproject/A2A": {
+      "name": "A2A Protocol",
+      "license": "Apache-2.0",
+      "evidence": "仓库页 sidebar 标记 Apache-2.0 license"
+    },
+    "a2aproject/a2a-python": {
+      "name": "A2A Python SDK",
+      "license": "Apache-2.0",
+      "evidence": "LICENSE 原文第 2-3 行 'Apache License / Version 2.0, January 2004'"
+    },
+    "a2aproject/a2a-js": {
+      "name": "A2A JavaScript SDK",
+      "license": "Apache-2.0",
+      "evidence": "LICENSE 原文第 2-3 行 'Apache License / Version 2.0, January 2004'"
+    },
+    "confident-ai/deepeval": {
+      "name": "DeepEval",
+      "license": "Apache-2.0",
+      "evidence": "仓库页 sidebar 标记 Apache-2.0 license"
+    },
+    "pytest-dev/pytest": {
+      "name": "pytest",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    },
+    "vibrantlabsai/ragas": {
+      "name": "Ragas",
+      "license": "Apache-2.0",
+      "evidence": "仓库页 sidebar 标记 Apache-2.0 license"
+    },
+    "sierra-research/tau-bench": {
+      "name": "tau-bench",
+      "license": "MIT",
+      "evidence": "仓库页 sidebar 标记 MIT license"
+    }
+  }
+}

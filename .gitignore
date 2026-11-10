@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 本机环境与密钥——**不要提交**
+.env
+.env.*
+*.pem
+*.key
+*.p12
+credentials.json
+secrets/
+
+# 编辑器与操作系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 实跑产物
+*.log
+*.tmp
+*.bak

@@ -1,0 +1,90 @@
+# dragon-agent 的本地/单机编排清单。
+#
+# 这份文件演示的是**容器这一层能做什么**：
+#
+#   - 只读根（read_only）+ tmpfs：进程写不了文件系统；
+#   - 非 root（user 10001:10001）：镜像里已经建好这个用户；
+#   - 丢弃全部 capabilities、不许提权：拿不到 shell 也升不了权；
+#   - 资源限额：CPU/内存封顶，一个任务失控不会拖垮宿主机；
+#   - 健康检查：直接用镜像里的 HEALTHCHECK，不另外起探针。
+#
+# **compose 管不了出网**。Docker Compose 没有网络策略，
+# 「最小出网」在这里只能靠外部防火墙；真正能做白名单的是 Kubernetes
+# 的 NetworkPolicy（见 ``deploy/k8s.yaml``）。这一点不写清楚，
+# 就会有人以为 compose 已经把出网收窄了。
+
+name: dragon-agent
+
+services:
+  agent:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: dragon-agent:1.0
+    command: ["run", "查一下项目预算，并告诉我总额"]
+
+    # 只读根：唯一的可写路径是下面挂的两个卷。
+    read_only: true
+    user: "10001:10001"
+
+    # /tmp 单独给一小块 tmpfs：Python 的临时文件需要它，但不该落在持久层上。
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+
+    volumes:
+      # 工作目录与 trace 输出。生产上换成宿主机目录或对象存储挂载。
+      - agent-workspace:/workspace
+      - agent-traces:/workspace/traces
+
+    # 密钥**不写进 compose 文件**。.env 由部署脚本生成，且不进版本库。
+    env_file:
+      - .env
+
+    environment:
+      DRAGON_WORKSPACE: /workspace
+      DRAGON_TRACE_DIR: /workspace/traces
+      PYTHONUNBUFFERED: "1"
+
+    # 安全基线：丢掉全部 capability，不许提权，不挂 /proc 一类的敏感路径。
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+    # 资源限额。Agent 的内存占用主要由上下文窗口决定——
+    # 上限太紧会 OOM，太松会让失控任务拖垮宿主机。
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
+    restart: unless-stopped
+    stop_grace_period: 30s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    networks:
+      - edge
+      - internal
+
+volumes:
+  agent-workspace:
+  agent-traces:
+
+networks:
+  # 默认出口网络：能访问模型 API。
+  edge:
+    driver: bridge
+  # 内部网络：接自己的下游服务（数据库、内部 API）。
+  # internal: true 表示它**没有**到外网的路由。
+  internal:
+    driver: bridge
+    internal: true

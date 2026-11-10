@@ -1,0 +1,486 @@
+{
+  "id": "survey-memory-eval",
+  "planId": "plan:5406",
+  "label": "测绘 C · 记忆、观测与评测",
+  "phase": "survey",
+  "kind": "agent",
+  "dependsOn": [],
+  "requestHash": "4fb7aa205528114492832650c2ef1b5c42a240e6a8ddb9ac72a4537a313b82aa",
+  "status": "succeeded",
+  "attempt": 1,
+  "createdAt": 1794047642732,
+  "startedAt": 1794047642733,
+  "endedAt": 1794048964750,
+  "prompt": "你正在为一部《开源 Agent 架构技术全书》做全景测绘，负责下面这一片。\n\n【测绘范围】\n记忆与状态层、观测层、评测层。重点覆盖：Letta / MemGPT、Mem0、Zep、Graphiti、LangMem、cognee、Memary；可观测性栈（Langfuse、Arize Phoenix、OpenLLMetry / Traceloop、AgentOps、LangSmith、OpenTelemetry GenAI 语义约定）；评测基准与框架（SWE-bench、GAIA、WebArena、BFCL、tau-bench、OSWorld、AgentBench、MCP-Bench、Ragas、promptfoo、DeepEval、OpenAI Evals）。每个项目记录真实仓库 URL、许可证、核心机制一句话，以及它衡量的究竟是什么。\n\n【方法】\n1. 必须联网核实。使用 web_search / web_fetch 打开每个项目的仓库首页或官方文档，确认它真实存在、仓库 URL 正确、许可证与主要语言没记错。\n2. 宁可少写也不要写错。无法确认的项目放进 gaps 数组，不要放进 projects。\n3. one_liner 用一句中文讲清它最核心的机制或定位，不要写营销语。pattern 填它代表的架构模式标签（例如 状态图编排 / 对话式多Agent / SOP流水线 / 分层记忆 / 事件溯源 等）。\n4. patterns 数组总结这一片里出现的架构模式名称列表。\n5. 项目数量控制在 12 到 20 个，每个项目只写最核心的那个，不要为了凑数收录边缘项目。\n6. 输出必须完整但紧凑：one_liner 不超过 40 字，notes 不超过 40 字，没有特别说明就写空字符串。\n7. 你的输出会进入后续章节写作的参考清单，超长会挤占上下文，所以务必精简。\n\n【输出】\n你的最后一条消息必须是一个完整的 JSON 对象，严格符合给定 schema，projects 里带上 url。不要附加任何额外文字。",
+  "input": null,
+  "output": {
+    "projects": [
+      {
+        "name": "Letta (MemGPT)",
+        "url": "https://github.com/letta-ai/letta",
+        "category": "记忆与状态层",
+        "one_liner": "把 Agent 当作常驻服务，自主读写记忆并改写自身状态",
+        "pattern": "状态图编排",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "PyPI 包 letta 已指向 letta-code(CLI)，核心框架仍在主仓"
+      },
+      {
+        "name": "Mem0",
+        "url": "https://github.com/mem0ai/mem0",
+        "category": "记忆与状态层",
+        "one_liner": "用 LLM 抽取并更新用户事实的独立记忆层",
+        "pattern": "分层记忆",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "Zep",
+        "url": "https://github.com/getzep/zep",
+        "category": "记忆与状态层",
+        "one_liner": "官方 Zep 仓库，现以示例与集成代码为主",
+        "pattern": "知识图谱记忆",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "其图记忆能力现由同组织 Graphiti 承担"
+      },
+      {
+        "name": "Graphiti",
+        "url": "https://github.com/getzep/graphiti",
+        "category": "记忆与状态层",
+        "one_liner": "增量构建带时间有效期的实体关系图谱记忆",
+        "pattern": "事件溯源",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "边按时间失效，可回溯任意时间点的事实"
+      },
+      {
+        "name": "LangMem",
+        "url": "https://github.com/langchain-ai/langmem",
+        "category": "记忆与状态层",
+        "one_liner": "给 LangChain 提供自主写入与检索长期记忆的工具",
+        "pattern": "分层记忆",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "Cognee",
+        "url": "https://github.com/topoteretes/cognee",
+        "category": "记忆与状态层",
+        "one_liner": "用小模型把数据加工成可检索的知识图谱记忆",
+        "pattern": "知识图谱记忆",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "Memary",
+        "url": "https://github.com/nweniwincs4/memary",
+        "category": "记忆与状态层",
+        "one_liner": "Neo4j 知识图谱加记忆流的双层长期记忆",
+        "pattern": "分层记忆",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "社区项目，默认使用 Ollama 本地模型"
+      },
+      {
+        "name": "Langfuse",
+        "url": "https://github.com/langfuse/langfuse",
+        "category": "观测层",
+        "one_liner": "自托管的 Agent 追踪、评估与提示管理平台",
+        "pattern": "全链路追踪",
+        "language": "TypeScript",
+        "license": "MIT(核心) + EE 目录企业许可",
+        "notes": "核心 MIT，ee/ 等目录另受企业许可约束"
+      },
+      {
+        "name": "Arize Phoenix",
+        "url": "https://github.com/Arize-ai/phoenix",
+        "category": "观测层",
+        "one_liner": "基于 OpenTelemetry 的 LLM 追踪与嵌入评估",
+        "pattern": "全链路追踪",
+        "language": "Python",
+        "license": "Elastic License 2.0",
+        "notes": ""
+      },
+      {
+        "name": "OpenLLMetry",
+        "url": "https://github.com/traceloop/openllmetry",
+        "category": "观测层",
+        "one_liner": "自动插桩把 LLM 调用转成 OpenTelemetry span",
+        "pattern": "标准化插桩",
+        "language": "Python / TypeScript",
+        "license": "Apache-2.0",
+        "notes": "库层截获 LLM/MCP 调用并按 OTel 语义打标"
+      },
+      {
+        "name": "AgentOps",
+        "url": "https://github.com/AgentOps-AI/agentops",
+        "category": "观测层",
+        "one_liner": "记录 Agent 运行轨迹、错误与会话回放的 SDK",
+        "pattern": "全链路追踪",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "LangSmith SDK",
+        "url": "https://github.com/langchain-ai/langsmith-python",
+        "category": "观测层",
+        "one_liner": "LangSmith 平台客户端：追踪、数据集与评估",
+        "pattern": "全链路追踪",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "平台闭源仅 SDK 开源；旧 langsmith-sdk 仓已归档"
+      },
+      {
+        "name": "OpenTelemetry GenAI 语义约定",
+        "url": "https://github.com/open-telemetry/semantic-conventions",
+        "category": "观测层",
+        "one_liner": "规定 GenAI span、事件与属性命名的跨厂商约定",
+        "pattern": "标准化遥测协议",
+        "language": "YAML/JSON",
+        "license": "Apache-2.0",
+        "notes": "GenAI 约定位于 model/gen-ai 目录"
+      },
+      {
+        "name": "SWE-bench",
+        "url": "https://github.com/SWE-bench/SWE-bench",
+        "category": "评测层",
+        "one_liner": "真实 GitHub issue 的修复成功率基准",
+        "pattern": "真实任务基准",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "含 Verified/Lite 子集与 Docker 评测镜像"
+      },
+      {
+        "name": "GAIA",
+        "url": "https://huggingface.co/datasets/gaia-benchmark/GAIA",
+        "category": "评测层",
+        "one_liner": "工具增强型通用助理的多级问答基准",
+        "pattern": "能力基准",
+        "language": "JSON/Parquet",
+        "license": "未标注(gated 受限数据集)",
+        "notes": "托管于 HuggingFace，榜单为 HF Space"
+      },
+      {
+        "name": "WebArena",
+        "url": "https://github.com/web-arena-x/webarena",
+        "category": "评测层",
+        "one_liner": "在真实可复现网站上完成浏览下单等自主任务",
+        "pattern": "可交互环境基准",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "tau-bench",
+        "url": "https://github.com/sierra-research/tau-bench",
+        "category": "评测层",
+        "one_liner": "模拟用户与领域规则下的多轮客服任务评测",
+        "pattern": "可交互环境基准",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "OSWorld",
+        "url": "https://github.com/xlang-ai/OSWorld",
+        "category": "评测层",
+        "one_liner": "真实桌面环境中多模态 GUI 操作任务评测",
+        "pattern": "可交互环境基准",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "BFCL",
+        "url": "https://github.com/gorilla-llm/Berkeley-Function-Calling-Leaderboard",
+        "category": "评测层",
+        "one_liner": "函数与工具调用的准确性及多轮 agentic 评测",
+        "pattern": "能力基准",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "V4 起新增 agentic(检索/记忆管理)子域"
+      },
+      {
+        "name": "MCP-Bench",
+        "url": "https://github.com/zyy07/MCPBench",
+        "category": "评测层",
+        "one_liner": "同模型同配置下横向对比 MCP 服务器质量",
+        "pattern": "组件级评测",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "比较任务准确率、延迟与 token 消耗"
+      }
+    ],
+    "patterns": [
+      "分层记忆",
+      "状态图编排",
+      "知识图谱记忆",
+      "事件溯源",
+      "全链路追踪",
+      "标准化插桩",
+      "标准化遥测协议",
+      "真实任务基准",
+      "可交互环境基准",
+      "能力基准",
+      "组件级评测"
+    ],
+    "gaps": [
+      "已核实存在但受 20 项上限未收录：Ragas(explodinggradients/ragas 已迁移至 github.com/vibrantlabsai/ragas，Apache-2.0，Python)",
+      "已核实存在但未收录：promptfoo(promptfoo/promptfoo，MIT，TypeScript)",
+      "已核实存在但未收录：DeepEval(confident-ai/deepeval，Apache-2.0，Python)",
+      "已核实存在但未收录：OpenAI Evals(openai/evals，MIT，Python)",
+      "已核实存在但未收录：AgentBench(THUDM/AgentBench，Apache-2.0，Python)",
+      "GAIA 的 GitHub 仓库 gaia-benchmark/gaia 本次无法访问，已改用其 HuggingFace 数据集与榜单 Space 地址",
+      "Letta 主仓本次未取到语言统计标签，语言按其 Python/FastAPI 生态填写",
+      "Zep 主仓 README 本次抓取失败，仅按仓库页面描述(Examples, Integrations & More)记录其当前定位"
+    ]
+  },
+  "error": null,
+  "errorDetails": null,
+  "maxSteps": 200,
+  "stepTimeoutMs": 1800000,
+  "runTimeoutMs": 21600000,
+  "timeoutMs": 1800000,
+  "usage": {
+    "inputTokens": 106066,
+    "outputTokens": 46129,
+    "cacheReadTokens": 2135168,
+    "totalTokens": 152195
+  },
+  "usageHistory": [],
+  "sessionId": "mvs_8a98cec902b84494808319c4afeaf9e4",
+  "turnId": "turn_mw69nc43_y840r3",
+  "rawOutput": {
+    "projects": [
+      {
+        "name": "Letta (MemGPT)",
+        "url": "https://github.com/letta-ai/letta",
+        "category": "记忆与状态层",
+        "one_liner": "把 Agent 当作常驻服务，自主读写记忆并改写自身状态",
+        "pattern": "状态图编排",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "PyPI 包 letta 已指向 letta-code(CLI)，核心框架仍在主仓"
+      },
+      {
+        "name": "Mem0",
+        "url": "https://github.com/mem0ai/mem0",
+        "category": "记忆与状态层",
+        "one_liner": "用 LLM 抽取并更新用户事实的独立记忆层",
+        "pattern": "分层记忆",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "Zep",
+        "url": "https://github.com/getzep/zep",
+        "category": "记忆与状态层",
+        "one_liner": "官方 Zep 仓库，现以示例与集成代码为主",
+        "pattern": "知识图谱记忆",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "其图记忆能力现由同组织 Graphiti 承担"
+      },
+      {
+        "name": "Graphiti",
+        "url": "https://github.com/getzep/graphiti",
+        "category": "记忆与状态层",
+        "one_liner": "增量构建带时间有效期的实体关系图谱记忆",
+        "pattern": "事件溯源",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "边按时间失效，可回溯任意时间点的事实"
+      },
+      {
+        "name": "LangMem",
+        "url": "https://github.com/langchain-ai/langmem",
+        "category": "记忆与状态层",
+        "one_liner": "给 LangChain 提供自主写入与检索长期记忆的工具",
+        "pattern": "分层记忆",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "Cognee",
+        "url": "https://github.com/topoteretes/cognee",
+        "category": "记忆与状态层",
+        "one_liner": "用小模型把数据加工成可检索的知识图谱记忆",
+        "pattern": "知识图谱记忆",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "Memary",
+        "url": "https://github.com/nweniwincs4/memary",
+        "category": "记忆与状态层",
+        "one_liner": "Neo4j 知识图谱加记忆流的双层长期记忆",
+        "pattern": "分层记忆",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "社区项目，默认使用 Ollama 本地模型"
+      },
+      {
+        "name": "Langfuse",
+        "url": "https://github.com/langfuse/langfuse",
+        "category": "观测层",
+        "one_liner": "自托管的 Agent 追踪、评估与提示管理平台",
+        "pattern": "全链路追踪",
+        "language": "TypeScript",
+        "license": "MIT(核心) + EE 目录企业许可",
+        "notes": "核心 MIT，ee/ 等目录另受企业许可约束"
+      },
+      {
+        "name": "Arize Phoenix",
+        "url": "https://github.com/Arize-ai/phoenix",
+        "category": "观测层",
+        "one_liner": "基于 OpenTelemetry 的 LLM 追踪与嵌入评估",
+        "pattern": "全链路追踪",
+        "language": "Python",
+        "license": "Elastic License 2.0",
+        "notes": ""
+      },
+      {
+        "name": "OpenLLMetry",
+        "url": "https://github.com/traceloop/openllmetry",
+        "category": "观测层",
+        "one_liner": "自动插桩把 LLM 调用转成 OpenTelemetry span",
+        "pattern": "标准化插桩",
+        "language": "Python / TypeScript",
+        "license": "Apache-2.0",
+        "notes": "库层截获 LLM/MCP 调用并按 OTel 语义打标"
+      },
+      {
+        "name": "AgentOps",
+        "url": "https://github.com/AgentOps-AI/agentops",
+        "category": "观测层",
+        "one_liner": "记录 Agent 运行轨迹、错误与会话回放的 SDK",
+        "pattern": "全链路追踪",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "LangSmith SDK",
+        "url": "https://github.com/langchain-ai/langsmith-python",
+        "category": "观测层",
+        "one_liner": "LangSmith 平台客户端：追踪、数据集与评估",
+        "pattern": "全链路追踪",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "平台闭源仅 SDK 开源；旧 langsmith-sdk 仓已归档"
+      },
+      {
+        "name": "OpenTelemetry GenAI 语义约定",
+        "url": "https://github.com/open-telemetry/semantic-conventions",
+        "category": "观测层",
+        "one_liner": "规定 GenAI span、事件与属性命名的跨厂商约定",
+        "pattern": "标准化遥测协议",
+        "language": "YAML/JSON",
+        "license": "Apache-2.0",
+        "notes": "GenAI 约定位于 model/gen-ai 目录"
+      },
+      {
+        "name": "SWE-bench",
+        "url": "https://github.com/SWE-bench/SWE-bench",
+        "category": "评测层",
+        "one_liner": "真实 GitHub issue 的修复成功率基准",
+        "pattern": "真实任务基准",
+        "language": "Python",
+        "license": "MIT",
+        "notes": "含 Verified/Lite 子集与 Docker 评测镜像"
+      },
+      {
+        "name": "GAIA",
+        "url": "https://huggingface.co/datasets/gaia-benchmark/GAIA",
+        "category": "评测层",
+        "one_liner": "工具增强型通用助理的多级问答基准",
+        "pattern": "能力基准",
+        "language": "JSON/Parquet",
+        "license": "未标注(gated 受限数据集)",
+        "notes": "托管于 HuggingFace，榜单为 HF Space"
+      },
+      {
+        "name": "WebArena",
+        "url": "https://github.com/web-arena-x/webarena",
+        "category": "评测层",
+        "one_liner": "在真实可复现网站上完成浏览下单等自主任务",
+        "pattern": "可交互环境基准",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "tau-bench",
+        "url": "https://github.com/sierra-research/tau-bench",
+        "category": "评测层",
+        "one_liner": "模拟用户与领域规则下的多轮客服任务评测",
+        "pattern": "可交互环境基准",
+        "language": "Python",
+        "license": "MIT",
+        "notes": ""
+      },
+      {
+        "name": "OSWorld",
+        "url": "https://github.com/xlang-ai/OSWorld",
+        "category": "评测层",
+        "one_liner": "真实桌面环境中多模态 GUI 操作任务评测",
+        "pattern": "可交互环境基准",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": ""
+      },
+      {
+        "name": "BFCL",
+        "url": "https://github.com/gorilla-llm/Berkeley-Function-Calling-Leaderboard",
+        "category": "评测层",
+        "one_liner": "函数与工具调用的准确性及多轮 agentic 评测",
+        "pattern": "能力基准",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "V4 起新增 agentic(检索/记忆管理)子域"
+      },
+      {
+        "name": "MCP-Bench",
+        "url": "https://github.com/zyy07/MCPBench",
+        "category": "评测层",
+        "one_liner": "同模型同配置下横向对比 MCP 服务器质量",
+        "pattern": "组件级评测",
+        "language": "Python",
+        "license": "Apache-2.0",
+        "notes": "比较任务准确率、延迟与 token 消耗"
+      }
+    ],
+    "patterns": [
+      "分层记忆",
+      "状态图编排",
+      "知识图谱记忆",
+      "事件溯源",
+      "全链路追踪",
+      "标准化插桩",
+      "标准化遥测协议",
+      "真实任务基准",
+      "可交互环境基准",
+      "能力基准",
+      "组件级评测"
+    ],
+    "gaps": [
+      "已核实存在但受 20 项上限未收录：Ragas(explodinggradients/ragas 已迁移至 github.com/vibrantlabsai/ragas，Apache-2.0，Python)",
+      "已核实存在但未收录：promptfoo(promptfoo/promptfoo，MIT，TypeScript)",
+      "已核实存在但未收录：DeepEval(confident-ai/deepeval，Apache-2.0，Python)",
+      "已核实存在但未收录：OpenAI Evals(openai/evals，MIT，Python)",
+      "已核实存在但未收录：AgentBench(THUDM/AgentBench，Apache-2.0，Python)",
+      "GAIA 的 GitHub 仓库 gaia-benchmark/gaia 本次无法访问，已改用其 HuggingFace 数据集与榜单 Space 地址",
+      "Letta 主仓本次未取到语言统计标签，语言按其 Python/FastAPI 生态填写",
+      "Zep 主仓 README 本次抓取失败，仅按仓库页面描述(Examples, Integrations & More)记录其当前定位"
+    ]
+  },
+  "outputFormat": "native"
+}

@@ -1,0 +1,12 @@
+{
+  "goal": "calc.py 里的 add() 多加了一次 1，导致 add(1, 2) 不等于 3。请修复 add() 的实现并让测试通过。",
+  "keyword": "add",
+  "symbol": "add",
+  "edits": [
+    {
+      "file": "calc.py",
+      "find": "return a + b + 1",
+      "replace": "return a + b"
+    }
+  ]
+}

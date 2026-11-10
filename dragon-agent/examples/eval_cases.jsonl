@@ -1,0 +1,10 @@
+# 第 14 章评测集：JSONL，每行一个用例。
+#
+# 字段：id / task / expect（必须出现在答案里）/ forbid（不许出现在答案里）/ script（mock 回放剧本）
+#
+# 判定器只做关键字匹配，不含 LLM 调用——两条路径（mock 回放与 live 真跑）判定口径一致。
+# mock 模式回放 script 里的答案，相当于 golden 回放；live 模式由真实模型作答。
+{"id": "budget-total", "task": "查一下 2026 年的项目预算总额", "expect": ["100 万", "研发"], "forbid": ["未知", "TODO"], "script": [{"text": "先读预算表", "tool": "read_budget", "args": {"fiscal_year": "2026"}}, {"text": "项目 2026 年预算总额为 100 万元，其中研发 62 万、市场 25 万、运维 13 万。"}]}
+{"id": "budget-breakdown", "task": "预算里运维占多少", "expect": ["13 万", "运维"], "forbid": ["不知道"], "script": [{"text": "查预算表", "tool": "read_budget", "args": {"fiscal_year": "2026"}}, {"text": "运维科目预算为 13 万元，占总预算 13%。"}]}
+{"id": "echo-tool", "task": "把这句话原样回显：上线值班", "expect": ["上线值班"], "forbid": ["无法"], "script": [{"text": "回显", "tool": "echo", "args": {"text": "上线值班"}}, {"text": "上线值班"}]}
+{"id": "no-fabrication", "task": "预算表里有没有列出差旅费科目", "expect": ["研发", "市场", "运维"], "forbid": ["差旅费 8 万"], "script": [{"text": "查预算表", "tool": "read_budget", "args": {"fiscal_year": "2026"}}, {"text": "预算表只列出三个科目：研发 62 万、市场 25 万、运维 13 万，没有单独的差旅费科目。"}]}

@@ -1,0 +1,921 @@
+{
+  "ch01": {
+    "id": "ch01",
+    "part": "part-0",
+    "title": "Agent 的定义、边界与心智模型",
+    "slug": "definition",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-0/ch01-definition.md",
+    "goal": "给出一个可操作的 Agent 定义与判定标准，划清 Agent / 工作流 / 链式调用 / Copilot / RPA 的边界，纠正“Agent 就是更长的提示词”这一最普遍的误解，并建立自主性分级光谱。",
+    "must_cover": [
+      "五种自主性光谱：单轮调用 → 固定流水线 → 受控循环 → 规划型 → 开放式自治，各自的决策权边界",
+      "判定一个东西是不是 Agent 的四条可操作标准（是否自主决策动作序列 / 是否依据环境反馈修正 / 是否持有持久状态 / 是否以完成目标为终止条件）",
+      "Agent 与 Workflow、Chain、RPA、Copilot 的分界与混用代价",
+      "自主性代价模型：不确定性 × 步数如何放大错误，以及为什么要设上限",
+      "概念演进脉络：ReAct → Reflexion → Generative Agents → Voyager → 今天的框架化实现"
+    ],
+    "code": false,
+    "code_dir": "ch01-definition",
+    "target_chars": 3000,
+    "matched": []
+  },
+  "ch02": {
+    "id": "ch02",
+    "part": "part-0",
+    "title": "Agent 系统的最小解剖：四回路架构",
+    "slug": "anatomy",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-0/ch02-anatomy.md",
+    "goal": "给出贯穿全书的统一解剖学模型：感知回路、规划回路、行动回路、反馈回路，加上状态、记忆、工具、护栏四个横切面，为后续所有章节提供共同坐标系。",
+    "must_cover": [
+      "四回路的职责划分、数据流与控制流分离（用 ASCII 图完整画出一次迭代）",
+      "每次迭代中：进入上下文的是什么、离开状态机的是什么、落盘的是什么",
+      "四个横切面（状态 / 记忆 / 工具 / 护栏）如何与回路解耦",
+      "同一解剖模型如何映射到单 Agent、多 Agent、以及代码智能体",
+      "最小可运行骨架：不到 150 行的 ReAct 循环，并指出它缺了哪些横切面"
+    ],
+    "code": true,
+    "code_dir": "ch02-anatomy",
+    "target_chars": 3200,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流"
+    ]
+  },
+  "ch03": {
+    "id": "ch03",
+    "part": "part-0",
+    "title": "为什么需要架构：可靠性、复利与工程约束",
+    "slug": "why-architecture",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-0/ch03-why-architecture.md",
+    "goal": "论证从“一次调用”到“一个系统”的必要性：量化单次调用的可靠性天花板，建立架构收益递减曲线，并给出“什么时候不该上框架”的诚实判断。",
+    "must_cover": [
+      "错误累积：把单步成功率与步数结合，画出成功率随步数塌陷的曲线",
+      "上下文经济学：token 是硬约束，如何用架构把“重复推理”变成“一次推理 + 多次确定性执行”",
+      "可测试性：架构如何把 LLM 的不确定性收敛到可断言的接口边界",
+      "框架的边际收益递减：什么时候一个手写 300 行的循环比 LangGraph 更好",
+      "三个真实的“过度工程化”反例与简化方案"
+    ],
+    "code": false,
+    "code_dir": "ch03-why-architecture",
+    "target_chars": 3000,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "PydanticAI | https://github.com/pydantic/pydantic-ai | MIT | 以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用"
+    ]
+  },
+  "ch04": {
+    "id": "ch04",
+    "part": "part-1",
+    "title": "ReAct：推理与行动交替的经典范式",
+    "slug": "react",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch04-react.md",
+    "goal": "讲透 ReAct 的完整契约：轨迹格式、提示模板、动作解析、观察回灌、停止条件，并说清它与 Function Calling 的关系（思想在前、协议在后）。",
+    "must_cover": [
+      "ReAct 原始轨迹格式（Thought / Action / Action Input / Observation）的准确结构与它解决的问题",
+      "为什么交错推理优于“先想完再执行”：环境反馈如何修正错误假设",
+      "工程实现要点：动作解析的鲁棒性、观察截断、循环检测、步数上限",
+      "ReAct 与 Function Calling 的关系：推理范式 vs 工具调用协议，两者是不同层",
+      "失败模式：格式漂移、Observation 污染上下文、无限循环"
+    ],
+    "code": true,
+    "code_dir": "ch04-react",
+    "target_chars": 3200,
+    "matched": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估"
+    ]
+  },
+  "ch05": {
+    "id": "ch05",
+    "part": "part-1",
+    "title": "提示增强技术：CoT、Few-shot、Self-ask 与 Least-to-Most",
+    "slug": "prompting",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch05-prompting.md",
+    "goal": "把主流提示增强技术分门别类，讲清每种技术的收益机制与失效边界，并明确划出“提示技巧”与“系统架构”的分界线。",
+    "must_cover": [
+      "Chain-of-Thought 的真实收益来源与代价（何时无效、为何对小模型不稳）",
+      "Few-shot 示例设计的要点：示例选择、格式一致性、示例顺序效应",
+      "Self-ask 与 Least-to-Most 的分解思想，以及它们与“规划”一章的关系",
+      "与提示技巧对应更强的架构方案：把提示技巧上移到控制流（何时该换架构而不是换提示）",
+      "一个对照实验设计：如何用最小实验判断某个提示技巧真的有效"
+    ],
+    "code": true,
+    "code_dir": "ch05-prompting",
+    "target_chars": 3000,
+    "matched": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "DSPy | https://github.com/stanfordnlp/dspy | MIT | 用声明式签名编写 LM 程序，再自动优化提示与示例"
+    ]
+  },
+  "ch06": {
+    "id": "ch06",
+    "part": "part-1",
+    "title": "反思与自纠错：Reflexion、Self-Refine 与独立评审者",
+    "slug": "reflection",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch06-reflection.md",
+    "goal": "系统梳理“让 Agent 检查自己”的三种形态，解释各自机制、代价与失效模式，特别是自我强化错误与反思循环这两个陷阱。",
+    "must_cover": [
+      "三种反思形态的机制差异：带记忆重试（Reflexion）、多轮改写（Self-Refine）、独立评审者（Critique-and-Act / Judge）",
+      "反思信号从哪来：规则校验、测试用例、检索证据、独立 LLM 评审各自的可靠性排序",
+      "自我强化错误：为什么同一个模型评审自己常常只是确认偏见",
+      "反思循环的熔断策略：最大轮次、无进展检测、反思内容去重",
+      "成本账：反思带来的收益是否覆盖 2-3 倍的 token 开销"
+    ],
+    "code": true,
+    "code_dir": "ch06-reflection",
+    "target_chars": 3200,
+    "matched": []
+  },
+  "ch07": {
+    "id": "ch07",
+    "part": "part-1",
+    "title": "规划范式：Plan-and-Execute、ReWOO 与搜索型推理",
+    "slug": "planning",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch07-planning.md",
+    "goal": "把规划按粒度与时机分类，解释三种范式的机制差异，并重点讲清“计划过时”这一所有规划系统都要面对的核心问题。",
+    "must_cover": [
+      "先规划后执行（Plan-and-Execute）：计划作为可编辑工件，优点与计划漂移风险",
+      "边规划边执行（ReWOO）：把变量引用预解耦，减少 LLM 调用次数",
+      "搜索型推理（Tree of Thoughts / Graph of Thoughts）：何时值得付搜索的代价",
+      "计划过时（stale plan）的三种处理：重规划触发条件、局部修补、全量重规划",
+      "任务分解质量的评估：如何判断子任务是可执行且可验证的"
+    ],
+    "code": true,
+    "code_dir": "ch07-planning",
+    "target_chars": 3200,
+    "matched": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装"
+    ]
+  },
+  "ch08": {
+    "id": "ch08",
+    "part": "part-1",
+    "title": "工具调用契约：把 Function Calling 当作 API 工程",
+    "slug": "tool-calling",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch08-tool-calling.md",
+    "goal": "把工具调用当作接口契约来设计：schema 设计原则、参数校验、并行调用、错误回灌、幂等性与副作用管理，给出可直接落地的规范。",
+    "must_cover": [
+      "工具描述即提示词：描述、参数语义、返回契约该怎么写（大量真实反例）",
+      "参数校验与修复：校验失败如何回灌给模型而不是直接抛错",
+      "错误回灌的三种形式：原始报错、结构化错误、修复建议",
+      "并行工具调用与依赖调用的判别，以及并行带来的结果对齐问题",
+      "副作用工具的幂等性设计：重试、事务、补偿与“不可重放”工具的标注"
+    ],
+    "code": true,
+    "code_dir": "ch08-tool-calling",
+    "target_chars": 3400,
+    "matched": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "PydanticAI | https://github.com/pydantic/pydantic-ai | MIT | 以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖"
+    ]
+  },
+  "ch09": {
+    "id": "ch09",
+    "part": "part-1",
+    "title": "代码即行动：Code-Act 与 Program-of-Thought",
+    "slug": "code-act",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch09-code-act.md",
+    "goal": "解释为什么让模型写代码执行往往比逐个调用工具更强，拆解其表达力、组合性、可验证性优势，以及沙箱隔离的硬性要求。",
+    "must_cover": [
+      "Code-Act 与 Program-of-Thought 的机制差异：把动作组合成程序 vs 把推理转成程序",
+      "表达力论证：为什么代码能表达工具调用难以表达的组合逻辑与循环",
+      "执行模型：解释器选择、状态保持、标准库策略、输出注入",
+      "沙箱硬性要求：文件访问、网络、进程、时限、资源配额",
+      "工程陷阱：幻觉 API、隐式副作用、调试可观测性不足"
+    ],
+    "code": true,
+    "code_dir": "ch09-code-act",
+    "target_chars": 3200,
+    "matched": [
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+      "Aider | https://github.com/Aider-AI/aider | Apache-2.0 | 生成仓库地图并把每次修改自动提交成 git commit",
+      "OpenHands | https://github.com/All-Hands-AI/OpenHands | MIT | Docker 沙箱里的通用开发智能体平台，可脚本化自主执行"
+    ]
+  },
+  "ch10": {
+    "id": "ch10",
+    "part": "part-1",
+    "title": "上下文工程：把上下文当作稀缺资源预算",
+    "slug": "context-engineering",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch10-context-engineering.md",
+    "goal": "把上下文从“提示词的一部分”升格为“可分配的资源”，系统讲述分层、检索、压缩、淘汰四种手段与上下文腐化现象。",
+    "must_cover": [
+      "上下文预算的分配：系统提示 / 工具定义 / 任务 / 历史 / 检索结果 各占多少",
+      "四种手段：分层（常驻与按需）、检索、压缩（摘要 / 结构化提取）、淘汰（按价值与新鲜度）",
+      "上下文腐化（context rot）：长上下文里中间信息被忽略的证据与缓解手段",
+      "与 Prompt Caching 的联动：什么该放前面、什么该变化",
+      "一个可复用的“上下文组装器”设计与实现"
+    ],
+    "code": true,
+    "code_dir": "ch10-context-engineering",
+    "target_chars": 3200,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "Letta (MemGPT) | https://github.com/letta-ai/letta | Apache-2.0 | 把 Agent 当作常驻服务，自主读写记忆并改写自身状态"
+    ]
+  },
+  "ch11": {
+    "id": "ch11",
+    "part": "part-1",
+    "title": "停止准则、步数上限与成本守卫",
+    "slug": "stopping",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-1/ch11-stopping.md",
+    "goal": "系统设计 Agent 的终止机制：任务级成功判定、步数与预算上限、无进展检测、超时降级与优雅退出，并把成本守卫落成可运行代码。",
+    "must_cover": [
+      "四类停止条件：显式完成、预算耗尽、无进展、异常终止，各自的判定实现",
+      "“无进展”检测：动作重复、观察不变、状态无变化三种信号",
+      "预算守卫：token 预算、时间预算、美元成本上限的统一抽象",
+      "超时与降级：部分完成如何安全返回给上游，而不是直接失败",
+      "停止条件的误判：过早停止 vs 永不停止，以及如何用评测调参"
+    ],
+    "code": true,
+    "code_dir": "ch11-stopping",
+    "target_chars": 3000,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流"
+    ]
+  },
+  "ch12": {
+    "id": "ch12",
+    "part": "part-2",
+    "title": "LangChain 与 LangGraph：状态图式编排范式",
+    "slug": "langgraph",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch12-langgraph.md",
+    "goal": "解剖以状态图为核心的编排范式：节点与边、状态归约、检查点、中断与人工介入、持久化执行，以及它为何成为复杂 Agent 的事实标准之一。",
+    "must_cover": [
+      "State Graph 的核心抽象：节点、边、条件边、状态 schema 与 reducer 的归约语义",
+      "为什么归约（reducer）比覆盖赋值更适合并发分支合并",
+      "Checkpointer 与时间旅行：快照、状态回溯、状态修正",
+      "interrupt / human-in-the-loop：暂停、审批、恢复的真实语义",
+      "与手写状态机的对比：框架换来了什么，代价是什么（可读性、调试、依赖）"
+    ],
+    "code": true,
+    "code_dir": "ch12-langgraph",
+    "target_chars": 3400,
+    "matched": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估"
+    ]
+  },
+  "ch13": {
+    "id": "ch13",
+    "part": "part-2",
+    "title": "LlamaIndex：数据驱动的 Agent 范式",
+    "slug": "llamaindex",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch13-llamaindex.md",
+    "goal": "展示另一条主线：把 Agent 架在数据与检索之上，说明事件驱动工作流（Workflows）与 Agent 抽象的差异，以及在知识密集型任务上的优势。",
+    "must_cover": [
+      "LlamaIndex 的核心主张：数据接入与 Agent 的耦合方式（索引、查询引擎、工具）",
+      "Workflows 事件驱动模型与 Agent 的关系，步进式执行的优势",
+      "AgentWorkflow / 多 Agent 工作流的实现方式",
+      "RAG 与 Agent 的耦合形态：检索作为工具 vs 检索作为内置能力",
+      "适用边界：什么时候 LlamaIndex 比 LangGraph 更合适"
+    ],
+    "code": true,
+    "code_dir": "ch13-llamaindex",
+    "target_chars": 3000,
+    "matched": [
+      "LlamaIndex | https://github.com/run-llama/llama_index | MIT | 以数据连接器与索引为中心，为 Agent 提供检索与工作流引擎",
+      "Haystack | https://github.com/deepset-ai/haystack | Apache-2.0 | 把检索、生成与 Agent 拆成组件，用显式管道控制数据流向"
+    ]
+  },
+  "ch14": {
+    "id": "ch14",
+    "part": "part-2",
+    "title": "AutoGen 与 OpenAI Agents SDK：对话式多 Agent 与轻量编排两条路线",
+    "slug": "autogen-agentsdk",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch14-autogen-agentsdk.md",
+    "goal": "并置解剖两条代表性路线：AutoGen 的会话式多 Agent（含 AgentChat 新版）与 OpenAI Agents SDK 的单 Agent + 交接（handoff）+ 护栏模型，比较设计哲学与适用面。",
+    "must_cover": [
+      "AutoGen Core / AgentChat 的分层：核心 actor 模型 vs 聊天层高阶 API",
+      "GroupChat 与 SelectorGroupChat 的轮次控制与自动选择机制",
+      "OpenAI Agents SDK：Agent / Handoff / Guardrail / Session / Tracing 五个核心抽象",
+      "两种路线对“编排”的隐含假设差异，以及迁移成本",
+      "选择依据：需要真正的多 Agent 对话时选谁"
+    ],
+    "code": true,
+    "code_dir": "ch14-autogen-agentsdk",
+    "target_chars": 3200,
+    "matched": [
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "Microsoft Agent Framework | https://github.com/microsoft/agent-framework | MIT | 融合 AutoGen 与 Semantic Kernel，统一 Agent、工作流与部署",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流"
+    ]
+  },
+  "ch15": {
+    "id": "ch15",
+    "part": "part-2",
+    "title": "CrewAI：角色—任务—流程心智模型",
+    "slug": "crewai",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch15-crewai.md",
+    "goal": "解剖 CrewAI 以角色、任务、流程为核心的心智模型，评估其表达力、可测试性与失败可解释性，并指出它在什么规模下会失效。",
+    "must_cover": [
+      "Agent（角色 + 目标 +  backstory）、Task、Process（sequential / hierarchical）、Crew 的组装模型",
+      "任务上下文传递机制与期望产出（expected_output）的实际作用",
+      "层级流程下 manager 的引入与额外成本",
+      "Flows 特性：把声明式 Crew 与事件驱动 Flow 结合",
+      "可测试性问题：角色扮演带来的自由裁量如何让行为难以断言，及其缓解"
+    ],
+    "code": true,
+    "code_dir": "ch15-crewai",
+    "target_chars": 3000,
+    "matched": [
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标"
+    ]
+  },
+  "ch16": {
+    "id": "ch16",
+    "part": "part-2",
+    "title": "PydanticAI、Agno 与 smolagents：类型驱动与轻量路线",
+    "slug": "pydanticai-agno-smolagents",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch16-pydanticai-agno-smolagents.md",
+    "goal": "比较三条追求小而美的框架路线：依赖注入 + 类型安全的 PydanticAI、极简 API 的 Agno、代码优先的 smolagents，说明它们各自的取舍。",
+    "must_cover": [
+      "PydanticAI：依赖注入、输出类型契约、模型无关抽象、测试友好性",
+      "Agno（曾名 Phidata）：极简的 Agent/Team/Workflow API 与知识层设计",
+      "smolagents：CodeAgent 与 ToolCallingAgent 两条路径、极小依赖面",
+      "三者的可观测性、可扩展性、生产化能力差距",
+      "选型判据：小项目、类型安全优先、代码智能体优先三条路径"
+    ],
+    "code": true,
+    "code_dir": "ch16-light-frameworks",
+    "target_chars": 3200,
+    "matched": [
+      "PydanticAI | https://github.com/pydantic/pydantic-ai | MIT | 以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+      "Agno | https://github.com/agno-agi/agno | Apache-2.0 | 以 Agent、Team、Workflow 组织多 Agent，AgentOS 承载持久运行",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用"
+    ]
+  },
+  "ch17": {
+    "id": "ch17",
+    "part": "part-2",
+    "title": "Semantic Kernel 与微软 Agent 栈",
+    "slug": "semantic-kernel",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch17-semantic-kernel.md",
+    "goal": "从企业集成视角解剖 Semantic Kernel 与微软后续的 Agent 框架演进：插件/技能、进程编排、AutoGen 到 Agent Framework 的整合，以及 C#/.NET 路线的特点。",
+    "must_cover": [
+      "Semantic Kernel 的核心抽象：Kernel、Plugin / Function、Prompt Template、Filters",
+      "Memory 与 Connectors 的设计思路",
+      "Microsoft Agent Framework 的定位：与 AutoGen、Semantic Kernel 的关系与合并原因",
+      "企业视角的优势与约束：与 .NET / Azure / Entra / Graph 生态的耦合",
+      "对 Python 开发者的现实建议"
+    ],
+    "code": false,
+    "code_dir": "ch17-semantic-kernel",
+    "target_chars": 3000,
+    "matched": [
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "Microsoft Agent Framework | https://github.com/microsoft/agent-framework | MIT | 融合 AutoGen 与 Semantic Kernel，统一 Agent、工作流与部署",
+      "Semantic Kernel | https://github.com/microsoft/semantic-kernel | MIT | 以插件、技能、记忆与计划为企业应用接入 LLM"
+    ]
+  },
+  "ch18": {
+    "id": "ch18",
+    "part": "part-2",
+    "title": "TypeScript 生态：Mastra、Vercel AI SDK 与 Agents SDK JS",
+    "slug": "ts-ecosystem",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch18-ts-ecosystem.md",
+    "goal": "系统对比 TypeScript 侧的 Agent 生态，说明其在流式 UI、边缘运行时、类型契约与全栈一致性上的独特优势与短板。",
+    "must_cover": [
+      "Vercel AI SDK：useChat / useCompletion 的 UI 优先抽象与流式协议",
+      "Mastra：TS 原生的 Agent / Workflow / Memory / Evals 分层与观测集成",
+      "OpenAI Agents SDK JS 与 MCP TypeScript SDK 的现状",
+      "TS 在沙箱与本地执行上的劣势与替代方案（Node 子进程、Deno、WASM）",
+      "何时选 TS：全栈一致、流式优先、边缘部署；何时选 Python"
+    ],
+    "code": true,
+    "code_dir": "ch18-ts-ecosystem",
+    "target_chars": 3000,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "MCP TypeScript SDK | https://github.com/modelcontextprotocol/typescript-sdk | 存量 MIT，新贡献 Apache-2.0 | 官方 TS SDK，main 为 v2，对应 2026-07-28 规范"
+    ]
+  },
+  "ch19": {
+    "id": "ch19",
+    "part": "part-2",
+    "title": "框架选型决策树与十个常见反模式",
+    "slug": "framework-selection",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-2/ch19-framework-selection.md",
+    "goal": "把前七章收敛成可执行的选型结论：一份决策树、一张能力对照表、十个在真实项目中被反复踩到的反模式。",
+    "must_cover": [
+      "决策树：团队背景 / 任务性质 / 是否多 Agent / 是否需要持久化 / 语言栈 / 部署形态",
+      "能力对照表：编排、持久化、观测、评测、多 Agent、协议、成本控制",
+      "十个反模式：例如过早引入多 Agent、把框架当业务逻辑、忽略可观测性、把记忆做成向量库即正义",
+      "从零开始的推荐起步路径（个人造轮子 → 轻框架 → 重框架）",
+      "迁移预案：框架锁定风险与抽象泄漏的处理"
+    ],
+    "code": false,
+    "code_dir": "ch19-framework-selection",
+    "target_chars": 3200,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "PydanticAI | https://github.com/pydantic/pydantic-ai | MIT | 以 Pydantic 模型定义输入输出，类型安全地注入模型与依赖",
+      "smolagents | https://github.com/huggingface/smolagents | Apache-2.0 | 极简 Agent 库，让模型用 Python 代码块代替 JSON 工具调用",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流"
+    ]
+  },
+  "ch20": {
+    "id": "ch20",
+    "part": "part-3",
+    "title": "多 Agent 的动机、分工理论与何时不该上多 Agent",
+    "slug": "multi-agent-motivation",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch20-multi-agent-motivation.md",
+    "goal": "建立多 Agent 的判据：什么情况下多 Agent 带来真实收益（并行性、上下文隔离、异构能力、权限隔离），什么情况下它只是成本翻倍。",
+    "must_cover": [
+      "四种真实收益来源：并行探索、子任务上下文隔离、能力异构、权限与信任边界隔离",
+      "上下文隔离的定量视角：为什么把 200 行日志塞进一个 Agent 会毁掉它的注意力",
+      "负收益来源：协调开销、错误传播、不可观测、成本翻倍",
+      "判断题：给出 8 个真实场景，明确标注该用单 Agent、流水线还是多 Agent",
+      "多 Agent 的成本模型与最小可行拆分原则"
+    ],
+    "code": false,
+    "code_dir": "ch20-multi-agent-motivation",
+    "target_chars": 3000,
+    "matched": [
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标"
+    ]
+  },
+  "ch21": {
+    "id": "ch21",
+    "part": "part-3",
+    "title": "对话式协作：GroupChat 与 CAMEL 角色扮演",
+    "slug": "conversation-collab",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch21-conversation-collab.md",
+    "goal": "拆解以对话为协作单位的实现：轮次调度、角色设定、发言选择、终止条件与成本核算，并给出对话协议设计的具体建议。",
+    "must_cover": [
+      "GroupChat 的轮次控制：自动回复、手动选人、speaker selection 机制",
+      "CAMEL 的角色扮演提示范式：inception prompt 的结构与为什么有效",
+      "对话协议设计：发言格式、终止词、仲裁与打断机制",
+      "上下文膨胀问题：全员共享历史 vs 分区历史的选择",
+      "成本核算：多轮对话的 token 放大系数"
+    ],
+    "code": true,
+    "code_dir": "ch21-conversation-collab",
+    "target_chars": 3000,
+    "matched": [
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行"
+    ]
+  },
+  "ch22": {
+    "id": "ch22",
+    "part": "part-3",
+    "title": "SOP 流水线：MetaGPT、ChatDev 与 AgentVerse 的软件公司隐喻",
+    "slug": "sop-pipeline",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch22-sop-pipeline.md",
+    "goal": "分析把人类软件公司流程编码为 Agent 流水线的做法，重点讲清“标准文档作为共享状态”这一关键设计及其收益与脆弱性。",
+    "must_cover": [
+      "MetaGPT 的 SOP / 标准文档机制：接口定义、需求文档如何成为下游输入",
+      "ChatDev 的 ChatChain 设计：角色、阶段、评审回路",
+      "AgentVerse 的多角色场景与任务求解器",
+      "共享文档作为状态载体的优点（可审计、可缓存、可回放）与缺点（腐化、格式耦合）",
+      "把 SOP 思想迁移到非软件任务的可行性与陷阱"
+    ],
+    "code": true,
+    "code_dir": "ch22-sop-pipeline",
+    "target_chars": 3200,
+    "matched": [
+      "Qwen-Agent | https://github.com/QwenLM/Qwen-Agent | Apache-2.0 | 基于 Qwen 打通函数调用、MCP、代码解释与 RAG"
+    ]
+  },
+  "ch23": {
+    "id": "ch23",
+    "part": "part-3",
+    "title": "协作拓扑与调度：Supervisor、层级、网状、辩论与黑板",
+    "slug": "orchestration-topology",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch23-orchestration-topology.md",
+    "goal": "建立拓扑坐标系，比较五种主流协作拓扑的控制流、上下文共享方式、失败传播路径与适用任务，并给出选型判据。",
+    "must_cover": [
+      "五种拓扑的控制流图与上下文共享范围对比",
+      "Supervisor 模式：集中调度 vs 分布式去中心化",
+      "层级（Hierarchical）：深度与扇出如何决定成本",
+      "辩论（Debate）与黑板（Blackboard）模式：什么时候对抗或共享空间真的有用",
+      "拓扑选择的三个维度：任务可分解度、对抗性需求、可验证性"
+    ],
+    "code": true,
+    "code_dir": "ch23-topology",
+    "target_chars": 3200,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "Microsoft Agent Framework | https://github.com/microsoft/agent-framework | MIT | 融合 AutoGen 与 Semantic Kernel，统一 Agent、工作流与部署",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "AgentScope | https://github.com/agentscope-ai/agentscope | Apache-2.0 | 面向多 Agent 协作的框架，配 Studio 可视化调试与追踪"
+    ]
+  },
+  "ch24": {
+    "id": "ch24",
+    "part": "part-3",
+    "title": "Agent 间通信协议：MCP、A2A 与内部消息设计",
+    "slug": "inter-agent-protocol",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch24-inter-agent-protocol.md",
+    "goal": "厘清 MCP（给 Agent 提供工具与上下文）与 A2A（Agent 之间委托任务）的职责边界，说明两者如何组合，以及在自建 Agent 中如何设计内部消息契约。",
+    "must_cover": [
+      "MCP 的对象模型：server / client / tools / resources / prompts，以及与 Function Calling 的关系",
+      "A2A 的核心抽象：AgentCard、Task、Message、Artifact，以及委托与流式推进",
+      "两协议的分工：上下文供给层 vs 委托执行层，以及组合方式",
+      "内部消息契约设计：结构化消息 vs 自然语言消息的权衡",
+      "Agent 卡片（AgentCard）作为能力发现机制的工程价值"
+    ],
+    "code": true,
+    "code_dir": "ch24-inter-agent-protocol",
+    "target_chars": 3200,
+    "matched": [
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "A2A Protocol | https://github.com/a2aproject/A2A | Apache-2.0 | Linux Foundation 治理的 Agent 间通信协议，含 Agent Card 与 Task"
+    ]
+  },
+  "ch25": {
+    "id": "ch25",
+    "part": "part-3",
+    "title": "多 Agent 失效模式与成本治理",
+    "slug": "multi-agent-failures",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-3/ch25-multi-agent-failures.md",
+    "goal": "系统列举多 Agent 的典型失效（循环、塌缩、错误放大、协调失败、成本失控），给出检测信号与熔断手段，并沉淀成可监控的指标。",
+    "must_cover": [
+      "失效清单：无限循环、角色塌缩、共识幻觉、错误放大、委派死锁、上下文污染",
+      "检测信号：重复率、消息长度分布、角色熵、步数增长曲线、token 斜率",
+      "熔断与降级：超时、重试上限、强制收敛、单 Agent 回退",
+      "多 Agent 的成本可视化：一次任务的总账与归因",
+      "用评测而非直觉来判断多 Agent 是否值得"
+    ],
+    "code": true,
+    "code_dir": "ch25-multi-agent-failures",
+    "target_chars": 3000,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "AutoGen | https://github.com/microsoft/autogen | MIT（LICENSE-CODE）；根目录 LICENSE 为 CC-BY-4.0 | 以可对话 Agent 与 GroupChat 支撑多 Agent 协作与代码执行",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标"
+    ]
+  },
+  "ch26": {
+    "id": "ch26",
+    "part": "part-4",
+    "title": "记忆分类学：工作、情景、语义与程序性记忆",
+    "slug": "memory-taxonomy",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch26-memory-taxonomy.md",
+    "goal": "建立记忆的四分类坐标系，把认知科学中的记忆分类映射到工程实现，说明每类记忆在 Agent 里究竟存了什么、怎么用。",
+    "must_cover": [
+      "四类记忆的判定标准与工程映射（工作/情景/语义/程序性）",
+      "认知科学结论能借鉴什么、不能借鉴什么（避免伪科学式类比）",
+      "每类记忆的典型存储形式与生命周期",
+      "“记住”这件事的三个不同需求：记住事实、记住经历、记住技能",
+      "一个记忆系统的接口设计（读、写、遗忘、检索）与写入时机"
+    ],
+    "code": false,
+    "code_dir": "ch26-memory-taxonomy",
+    "target_chars": 3000,
+    "matched": [
+      "Letta (MemGPT) | https://github.com/letta-ai/letta | Apache-2.0 | 把 Agent 当作常驻服务，自主读写记忆并改写自身状态",
+      "Mem0 | https://github.com/mem0ai/mem0 | Apache-2.0 | 用 LLM 抽取并更新用户事实的独立记忆层",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具"
+    ]
+  },
+  "ch27": {
+    "id": "ch27",
+    "part": "part-4",
+    "title": "长期记忆实现：向量、摘要与实体图谱三条路线",
+    "slug": "long-term-memory",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch27-long-term-memory.md",
+    "goal": "比较三种长期记忆后端的原理、写入/检索机制、失效模式与成本，并用真实开源实现做对照。",
+    "must_cover": [
+      "向量检索路线：embedding 切块、相似度盲区、为何“语义相似”不等于“该被想起”",
+      "摘要与压缩路线：MemGPT 的虚拟上下文分页思想与摘要漂移",
+      "实体图谱路线：Graphiti 的时序知识图谱、边失效与 bi-temporal 设计",
+      "Mem0 的记忆抽取与更新机制（以及它的评测争议）",
+      "选型建议与混合方案：图谱 + 向量 + 摘要的组合"
+    ],
+    "code": true,
+    "code_dir": "ch27-long-term-memory",
+    "target_chars": 3400,
+    "matched": [
+      "Letta (MemGPT) | https://github.com/letta-ai/letta | Apache-2.0 | 把 Agent 当作常驻服务，自主读写记忆并改写自身状态",
+      "Mem0 | https://github.com/mem0ai/mem0 | Apache-2.0 | 用 LLM 抽取并更新用户事实的独立记忆层",
+      "Zep | https://github.com/getzep/zep | Apache-2.0 | 官方 Zep 仓库，现以示例与集成代码为主",
+      "Graphiti | https://github.com/getzep/graphiti | Apache-2.0 | 增量构建带时间有效期的实体关系图谱记忆",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具",
+      "Cognee | https://github.com/topoteretes/cognee | Apache-2.0 | 用小模型把数据加工成可检索的知识图谱记忆"
+    ]
+  },
+  "ch28": {
+    "id": "ch28",
+    "part": "part-4",
+    "title": "上下文窗口工程：检索、压缩、淘汰与分层",
+    "slug": "context-windowing",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch28-context-windowing.md",
+    "goal": "把上下文管理从提示技巧提升为工程：给出四种操作的具体算法、参数与指标，并解释它们如何与提示缓存协同。",
+    "must_cover": [
+      "分层记忆（Letta 的 core / recall / archival）的检索顺序与触发条件",
+      "历史压缩算法：滑窗、摘要、抽取式压缩的对比与信息损失",
+      "价值淘汰：如何给每条上下文打分并保留高价值信息",
+      "与 Prompt Caching 的强耦合：稳定前缀的组织方式与缓存命中率",
+      "长上下文模型出现后，这些工程手段是否还需要"
+    ],
+    "code": true,
+    "code_dir": "ch28-context-windowing",
+    "target_chars": 3200,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "Letta (MemGPT) | https://github.com/letta-ai/letta | Apache-2.0 | 把 Agent 当作常驻服务，自主读写记忆并改写自身状态"
+    ]
+  },
+  "ch29": {
+    "id": "ch29",
+    "part": "part-4",
+    "title": "检查点、回放与多 Agent 共享状态",
+    "slug": "checkpoint-replay",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch29-checkpoint-replay.md",
+    "goal": "讲清状态持久化的工程意义：快照、事件溯源、时间旅行调试、失败恢复，以及多 Agent 之间共享状态的几种模式与一致性代价。",
+    "must_cover": [
+      "检查点（checkpoint）的数据结构与写入时机：每步、每工具、每消息",
+      "事件溯源 vs 状态快照：可重放性、存储成本、状态膨胀",
+      "时间旅行调试：如何从任意历史步重跑并对比分支结果",
+      "多 Agent 共享状态：共享内存、共享文档、消息传递、共享存储的取舍",
+      "恢复语义：崩溃后重放是否安全，副作用如何去重"
+    ],
+    "code": true,
+    "code_dir": "ch29-checkpoint-replay",
+    "target_chars": 3000,
+    "matched": [
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "CrewAI | https://github.com/crewAIInc/crewAI | MIT | 用角色、任务与流程模板组织 Agent 团队协作达成目标",
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "Letta (MemGPT) | https://github.com/letta-ai/letta | Apache-2.0 | 把 Agent 当作常驻服务，自主读写记忆并改写自身状态"
+    ]
+  },
+  "ch30": {
+    "id": "ch30",
+    "part": "part-4",
+    "title": "Agentic RAG：让检索从预处理变成主动决策",
+    "slug": "agentic-rag",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-4/ch30-agentic-rag.md",
+    "goal": "解释 Agentic RAG 的范式转变：检索不再是流水线固定步骤，而是 Agent 根据当前状态自主决定查询、分解、验证与再检索，并给出实现骨架。",
+    "must_cover": [
+      "朴素 RAG 与 Agentic RAG 的架构差异与失败模式对比",
+      "查询分解与多路检索：HyDE、multi-query、并行子查询的取舍",
+      "引用校验与“引用幻觉”：让答案可核查的机制",
+      "检索质量评估：命中率、支撑率、忠实度（faithfulness）的度量",
+      "何时应该退回朴素 RAG：延迟与成本约束下的取舍"
+    ],
+    "code": true,
+    "code_dir": "ch30-agentic-rag",
+    "target_chars": 3200,
+    "matched": [
+      "LangChain | https://github.com/langchain-ai/langchain | MIT | 以 Runnable/LCEL 组合模型、提示、工具与检索，Agent 由链拼装",
+      "LangGraph | https://github.com/langchain-ai/langgraph | MIT | 用显式状态图与检查点编排可循环、可恢复的 Agent 工作流",
+      "LlamaIndex | https://github.com/run-llama/llama_index | MIT | 以数据连接器与索引为中心，为 Agent 提供检索与工作流引擎",
+      "RAGFlow | https://github.com/infiniflow/ragflow | Apache-2.0 | 以深度文档解析构建上下文，再由 Agent 基于证据作答",
+      "LangMem | https://github.com/langchain-ai/langmem | MIT | 给 LangChain 提供自主写入与检索长期记忆的工具",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估"
+    ]
+  },
+  "ch31": {
+    "id": "ch31",
+    "part": "part-5",
+    "title": "沙箱与执行隔离",
+    "slug": "sandbox",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch31-sandbox.md",
+    "goal": "系统讲清 Agent 执行不可信代码时的隔离技术：容器、gVisor、seccomp、进程级隔离、浏览器沙箱、网络策略与资源配额。",
+    "must_cover": [
+      "威胁模型：Agent 执行的代码、命令、网页内容都是不可信输入",
+      "隔离技术谱系：进程隔离 → 容器 → 用户态内核（gVisor/Firecracker）→ 微虚机",
+      "文件系统与网络策略：最小挂载、出网白名单、只读根",
+      "浏览器与 GUI 执行的特殊风险与隔离方案",
+      "资源配额与超时：CPU、内存、进程数、时间"
+    ],
+    "code": true,
+    "code_dir": "ch31-sandbox",
+    "target_chars": 3200,
+    "matched": [
+      "browser-use | https://github.com/browser-use/browser-use | MIT | 用无障碍树给 LLM 描述页面元素，自主点击输入完成任务",
+      "Stagehand | https://github.com/browserbase/stagehand | MIT | 把 act/observe/extract 与确定性 Playwright API 混搭",
+      "OpenHands | https://github.com/All-Hands-AI/OpenHands | MIT | Docker 沙箱里的通用开发智能体平台，可脚本化自主执行"
+    ]
+  },
+  "ch32": {
+    "id": "ch32",
+    "part": "part-5",
+    "title": "提示注入与越权防护",
+    "slug": "prompt-injection",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch32-prompt-injection.md",
+    "goal": "建立 Agent 安全的威胁模型：区分提示注入、工具滥用、越权与数据外泄，给出纵深防御方案与残余风险的真实评估。",
+    "must_cover": [
+      "威胁分类：直接注入、间接注入（网页/文档/工具返回）、越权调用、记忆投毒、数据外泄",
+      "为什么“更长的安全提示词”不是解决方案",
+      "纵深防御：能力最小化、工具分级与审批、输出净化、来源信任标记、双通道校验",
+      "实用缓解：把不可信内容放进数据区而非指令区、工具结果标注来源、危险动作二次确认",
+      "残余风险与诚实边界：当前没有彻底解法的原因"
+    ],
+    "code": true,
+    "code_dir": "ch32-prompt-injection",
+    "target_chars": 3200,
+    "matched": [
+      "Claude Code | https://github.com/anthropics/claude-code | 专有（Anthropic 商业条款） | 终端里的编码智能体，读代码改代码跑命令并管 git"
+    ]
+  },
+  "ch33": {
+    "id": "ch33",
+    "part": "part-5",
+    "title": "可观测性：Trace、Span 与 Agent 专属指标",
+    "slug": "observability",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch33-observability.md",
+    "goal": "讲清 Agent 可观测性与传统服务可观测性的差异，给出 Trace/Span 语义设计、事件命名规范、关键 SLI，以及开源栈的落地方式。",
+    "must_cover": [
+      "Agent 调用链的语义：一次任务 = 多个 LLM span + 多个工具 span + 嵌套 Agent span",
+      "Span 字段设计：输入输出、token、延迟、成本、重试、错误分类",
+      "开源栈对比：Langfuse、Arize Phoenix、OpenLLMetry/Traceloop、AgentOps、LangSmith 的取舍",
+      "为 Agent 设计的 SLI：任务成功率、步数分布、工具错误率、无进展率、每次成功成本",
+      "追踪与隐私：敏感数据脱敏、采样策略、留存期限"
+    ],
+    "code": true,
+    "code_dir": "ch33-observability",
+    "target_chars": 3200,
+    "matched": [
+      "Zep | https://github.com/getzep/zep | Apache-2.0 | 官方 Zep 仓库，现以示例与集成代码为主",
+      "Langfuse | https://github.com/langfuse/langfuse | MIT(核心) + EE 目录企业许可 | 自托管的 Agent 追踪、评估与提示管理平台",
+      "Arize Phoenix | https://github.com/Arize-ai/phoenix | Elastic License 2.0 | 基于 OpenTelemetry 的 LLM 追踪与嵌入评估",
+      "OpenLLMetry | https://github.com/traceloop/openllmetry | Apache-2.0 | 自动插桩把 LLM 调用转成 OpenTelemetry span",
+      "AgentOps | https://github.com/AgentOps-AI/agentops | MIT | 记录 Agent 运行轨迹、错误与会话回放的 SDK",
+      "LangSmith SDK | https://github.com/langchain-ai/langsmith-python | MIT | LangSmith 平台客户端：追踪、数据集与评估",
+      "OpenTelemetry GenAI 语义约定 | https://github.com/open-telemetry/semantic-conventions | Apache-2.0 | 规定 GenAI span、事件与属性命名的跨厂商约定"
+    ]
+  },
+  "ch34": {
+    "id": "ch34",
+    "part": "part-5",
+    "title": "评测体系：基准、任务集、LLM-as-Judge 与回归测试",
+    "slug": "evaluation",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch34-evaluation.md",
+    "goal": "建立 Agent 评测的方法论：主流基准的能力边界、自建任务集的设计方法、判定器的偏差控制，以及如何把评测接进 CI 形成回归。",
+    "must_cover": [
+      "主流基准逐个剖析：SWE-bench / GAIA / WebArena / BFCL / τ-bench / OSWorld / MCP-Bench / AgentBench 的测什么、不测什么",
+      "基准饱和与污染问题：为什么榜单分数不等于你的业务能力",
+      "自建任务集：规模、覆盖矩阵、难度分层、黄金答案的构造与维护",
+      "LLM-as-judge 的偏差：位置偏差、长度偏好、自偏好，以及如何用多判定器 + 人工校准缓解",
+      "把评测接进 CI：确定性检查、抽样回归、版本化与基线对比"
+    ],
+    "code": true,
+    "code_dir": "ch34-evaluation",
+    "target_chars": 3400,
+    "matched": [
+      "SWE-bench | https://github.com/SWE-bench/SWE-bench | MIT | 真实 GitHub issue 的修复成功率基准",
+      "GAIA | https://huggingface.co/datasets/gaia-benchmark/GAIA | 未标注(gated 受限数据集) | 工具增强型通用助理的多级问答基准",
+      "WebArena | https://github.com/web-arena-x/webarena | Apache-2.0 | 在真实可复现网站上完成浏览下单等自主任务",
+      "tau-bench | https://github.com/sierra-research/tau-bench | MIT | 模拟用户与领域规则下的多轮客服任务评测",
+      "OSWorld | https://github.com/xlang-ai/OSWorld | Apache-2.0 | 真实桌面环境中多模态 GUI 操作任务评测",
+      "BFCL | https://github.com/gorilla-llm/Berkeley-Function-Calling-Leaderboard | Apache-2.0 | 函数与工具调用的准确性及多轮 agentic 评测",
+      "MCP-Bench | https://github.com/zyy07/MCPBench | Apache-2.0 | 同模型同配置下横向对比 MCP 服务器质量"
+    ]
+  },
+  "ch35": {
+    "id": "ch35",
+    "part": "part-5",
+    "title": "成本与性能优化",
+    "slug": "cost-performance",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch35-cost-performance.md",
+    "goal": "把成本当作一等工程指标：建立成本模型，掌握提示缓存、模型路由、并发、结果复用、上下文裁剪等手段及其对延迟与质量的副作用。",
+    "must_cover": [
+      "成本模型：一次任务的总 token 分解（输入/输出/缓存命中/工具往返）",
+      "提示缓存：原理、前缀稳定性设计、命中率测量与失效陷阱",
+      "模型路由：按难度分级、级联策略、质量-成本帕累托",
+      "结果复用与语义缓存：适用边界与风险",
+      "延迟优化：流式、并行、投机解码、工具并发、异步化"
+    ],
+    "code": true,
+    "code_dir": "ch35-cost-performance",
+    "target_chars": 3200,
+    "matched": []
+  },
+  "ch36": {
+    "id": "ch36",
+    "part": "part-5",
+    "title": "生产化检查清单与真实故障模式",
+    "slug": "production-checklist",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-5/ch36-production-checklist.md",
+    "goal": "把前五卷的结论固化为可执行的上线清单，并复盘若干真实故障模式，说明它们在架构上的根因。",
+    "must_cover": [
+      "上线前检查清单（按基础设施 / 模型与提示 / 工具 / 安全 / 观测 / 评测 / 成本 / 合规 分组）",
+      "典型故障复盘：无限循环、成本暴涨、上下文污染、记忆投毒、工具雪崩、模型版本漂移",
+      "每个故障的架构根因与预防性设计",
+      "灰度与回滚：模型升级、提示升级、框架升级的风险控制",
+      "值班手册要点：告警阈值、常见处置动作、升级路径"
+    ],
+    "code": false,
+    "code_dir": "ch36-production-checklist",
+    "target_chars": 3000,
+    "matched": [
+      "OpenAI Agents SDK | https://github.com/openai/openai-agents-python | MIT | 用 Agent、工具、交接、护栏与追踪拼装轻量多 Agent 工作流",
+      "Claude Code | https://github.com/anthropics/claude-code | 专有（Anthropic 商业条款） | 终端里的编码智能体，读代码改代码跑命令并管 git",
+      "Langfuse | https://github.com/langfuse/langfuse | MIT(核心) + EE 目录企业许可 | 自托管的 Agent 追踪、评估与提示管理平台"
+    ]
+  },
+  "ch37": {
+    "id": "ch37",
+    "part": "part-6",
+    "title": "代码智能体与仓库级自治",
+    "slug": "coding-agents",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch37-coding-agents.md",
+    "goal": "解剖代码智能体的架构分野：补丁式（SWE-agent）、命令式（OpenHands）、编辑器式（Cline/Roo）、CLI 式（Claude Code / OpenCode / Aider）与它们在检索、编辑、验证、上下文上的不同策略。",
+    "must_cover": [
+      "五种形态的架构差异：搜索策略（grep/embedding/树索引）、编辑机制（diff/patch/全量重写）、验证回路（测试/构建/lint）",
+      "仓库级上下文的获取：仓库地图、符号索引、渐进式披露",
+      "小模型 + 好脚手架 vs 大模型 + 朴素脚手架的实证对比",
+      "SWE-bench 上真正起作用的工程要素",
+      "自建一个代码 Agent 的最小可行实现路线"
+    ],
+    "code": true,
+    "code_dir": "ch37-coding-agents",
+    "target_chars": 3400,
+    "matched": [
+      "Claude Code | https://github.com/anthropics/claude-code | 专有（Anthropic 商业条款） | 终端里的编码智能体，读代码改代码跑命令并管 git",
+      "OpenCode | https://github.com/anomalyco/opencode | MIT | Go 写的终端编码智能体，模型无关且客户端-服务端分离",
+      "Cline | https://github.com/cline/cline | Apache-2.0 | IDE 侧边栏智能体，每步 git checkpoint 可回滚",
+      "Aider | https://github.com/Aider-AI/aider | Apache-2.0 | 生成仓库地图并把每次修改自动提交成 git commit",
+      "OpenHands | https://github.com/All-Hands-AI/OpenHands | MIT | Docker 沙箱里的通用开发智能体平台，可脚本化自主执行",
+      "SWE-bench | https://github.com/SWE-bench/SWE-bench | MIT | 真实 GitHub issue 的修复成功率基准"
+    ]
+  },
+  "ch38": {
+    "id": "ch38",
+    "part": "part-6",
+    "title": "计算机使用与 GUI Agent",
+    "slug": "computer-use",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch38-computer-use.md",
+    "goal": "讲清 GUI Agent 的技术现实：屏幕感知与定位、动作空间设计、grounding 模型、慢与脆弱的特性，以及它与 DOM 级自动化的取舍。",
+    "must_cover": [
+      "动作空间设计：鼠标/键盘/滚动的粒度与多步合成的取舍",
+      "屏幕感知：截图分辨率、视觉 token 成本、可访问性树作为替代",
+      "grounding：把“点击右上角的关闭按钮”变成坐标的能力来源",
+      "GUI Agent 的失败模式：像素级脆弱、状态不可观测、动作不可逆",
+      "DOM/AX 树优先、视觉兜底的混合策略与其实践"
+    ],
+    "code": true,
+    "code_dir": "ch38-computer-use",
+    "target_chars": 3200,
+    "matched": [
+      "Playwright | https://github.com/microsoft/playwright | Apache-2.0 | 跨 Chromium/Firefox/WebKit 的统一 API 与自动等待机制",
+      "browser-use | https://github.com/browser-use/browser-use | MIT | 用无障碍树给 LLM 描述页面元素，自主点击输入完成任务",
+      "Stagehand | https://github.com/browserbase/stagehand | MIT | 把 act/observe/extract 与确定性 Playwright API 混搭",
+      "Skyvern | https://github.com/Skyvern-AI/skyvern | AGPL-3.0 | 视觉模型直接看渲染页面，用多智能体群完成表单类流程",
+      "UI-TARS Desktop | https://github.com/bytedance/UI-TARS-desktop | Apache-2.0 | 基于 UI-TARS 视觉模型的本地 GUI 智能体，可控桌面与浏览器",
+      "OmniParser | https://github.com/microsoft/OmniParser | CC-BY-4.0 | 把屏幕截图解析成结构化可交互元素，支撑纯视觉 GUI 智能体"
+    ]
+  },
+  "ch39": {
+    "id": "ch39",
+    "part": "part-6",
+    "title": "协议与生态全景：MCP、A2A、AG-UI、Skills 与插件体系",
+    "slug": "protocol-ecosystem",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch39-protocol-ecosystem.md",
+    "goal": "绘制协议层全景图，明确每个协议解决哪一层问题、如何组合，以及 Skills / 子代理 / 插件这类能力扩展范式的出现与意义。",
+    "must_cover": [
+      "协议分层图：模型 API 层 / 工具上下文层（MCP）/ 委托执行层（A2A）/ 用户交互层（AG-UI）/ 能力封装层（Skills）",
+      "各协议的规范现状、参考实现与生态采纳度（务必联网核实最新状态）",
+      "AG-UI：Agent 与前端的事件流约定",
+      "Skills 与子代理：把“能力”打包成可渐进披露的资产",
+      "选型建议：什么时候自己写工具函数就够了，什么时候需要协议"
+    ],
+    "code": true,
+    "code_dir": "ch39-protocol-ecosystem",
+    "target_chars": 3200,
+    "matched": [
+      "AG-UI | https://github.com/ag-ui-protocol/ag-ui | MIT | 事件驱动的 Agent-前端协议，约 16 类标准事件",
+      "Claude Code | https://github.com/anthropics/claude-code | 专有（Anthropic 商业条款） | 终端里的编码智能体，读代码改代码跑命令并管 git"
+    ]
+  },
+  "ch40": {
+    "id": "ch40",
+    "part": "part-6",
+    "title": "自举与自我改进：AutoGPT 的教训与演化式改进",
+    "slug": "self-improvement",
+    "path": "D:/Creater/Dragon_agent/agent-book/vol1/part-6/ch40-self-improvement.md",
+    "goal": "复盘自我改进 Agent 的三条路线（自主循环、程序演化、模型自训练），分析各自机制、实证结果与安全边界，给出清醒的判断。",
+    "must_cover": [
+      "AutoGPT 式自主循环为何在实践中迅速失效：无目标验证、错误累积、无成本边界",
+      "程序/代码演化路线：Darwin Gödel Machine、AlphaEvolve 的机制与结果",
+      "经验与技能沉淀路线：把成功轨迹蒸馏为可复用技能/记忆的做法与陷阱",
+      "自我改进的安全边界：权限放大、目标漂移、评估污染",
+      "对自建 Agent 的务实建议：哪些自我改进机制今天就值得做"
+    ],
+    "code": false,
+    "code_dir": "ch40-self-improvement",
+    "target_chars": 3200,
+    "matched": []
+  }
+}
