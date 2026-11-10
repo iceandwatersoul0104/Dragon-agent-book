@@ -56,6 +56,39 @@
   `UNEXPECTED_EOF`，PowerShell 侧多数能通。核查脚本优先写 `.ps1`（且必须纯 ASCII）。
 - 密集请求会被中间设备切断，单次之间留 3–8 秒间隔。
 
+### git 推送走哪条路（2026-11-10 实测）
+
+**HTTPS 推送不通，SSH 通。**
+
+- `git push` 走 `https://github.com/...` —— **失败**。`schannel: failed to receive handshake` / `server closed abruptly (missing close_notify)`；
+  换 `http.sslBackend=openssl`、换 `http.version=HTTP/1.1` 都一样。这与上面的 `raw.githubusercontent.com` 阻断是同一类中间设备问题。
+- `git push` 走 **SSH** —— **可用**。`git@github.com`（22 端口）与 `ssh.github.com:443` 都认证成功。
+- `gh` 走 Go 的 HTTP 客户端 —— **可用**，`gh api` 正常。必要时可以用 REST API 手工完成
+  「blob → tree → commit → ref」四步来代替 `git push`。
+
+**踩过的坑：全局 `~/.gitconfig` 里这条规则写法是错的**——
+
+```ini
+[url "git@github.com:443"]
+	insteadOf = git@github.com
+```
+
+`git@github.com:443` 放在 URL 基位会被解析成「主机 `github.com`、路径 `443`」，
+于是所有 `git@github.com:owner/repo.git` 被改写成 `git@github.com:443:owner/repo.git`，
+再按 scp 式语法读出来路径就成了 `443:owner/repo.git`，报 `is not a valid repository name`。
+**正确写法**是用带 scheme 的完整 URL：
+
+```ini
+[url "ssh://git@ssh.github.com:443/"]
+	insteadOf = git@github.com:
+```
+
+不想动全局配置时，本仓库用显式 URL 绕开该规则即可：
+
+```powershell
+git remote set-url origin ssh://git@ssh.github.com:443/iceandwatersoul0104/Dragon-agent-book.git
+```
+
 ## 已知的坑
 
 - `_gen_readme.py` 与 `_lint.py` 的路径判定都以 `chapters.json` 为准；改动章节文件名后必须重跑这两个脚本。
